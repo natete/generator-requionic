@@ -11,7 +11,8 @@
   "files": [
     "generators/app",
     "generators/module",
-    "generators/view"
+    "generators/view",
+    "generators/service"
   ],
   "main": "generators/index.js",
   "keywords": [

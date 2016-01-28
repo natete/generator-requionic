@@ -20,19 +20,20 @@
   define(['./<%= moduleName %>.module'], function(module) {
     'use strict';
 
-    module.controller('<%= controllerName %>', <%= controllerName %>);
+    module.controller('<%= serviceName %>', <%= serviceName %>);
 
-    <%=controllerName %>.$inject = ['$log'];
+    <%= serviceName %>.$inject = ['$log'];
 
-    function <%= controllerName %> ($log) {
-      var vm = this;
-      vm.class = '<%= controllerName %>';
+    function <%= serviceName %> ($log) {
+      var service = {};
 
-      activate();
+      service.method = method;
 
-      function(activate) {
-        $log.debug('Activating ' + vm.class);
+      function method() {
+        // TODO autogeneratd method stub...
       }
+
+      return service;
     }
   });
 })();

@@ -81,30 +81,41 @@ module.exports = yeoman.generators.Base.extend({
 
     createModule: function() {
       this.log(chalk.yellow('### Creating module ' + this.moduleName + ' ###'));
-        var destinationPath = 'www/js/' + this.moduleName;
-        this.fs.copyTpl(
-          this.templatePath('_module.js'),
-          this.destinationPath(destinationPath + '/' + this.moduleName + '.module.js'), {
-            author: this.author,
-            module: this.moduleName,
-            date: (new Date()).toDateString()
-          }
-        );
+      var destinationPath = 'www/js/' + this.moduleName;
+      this.fs.copyTpl(
+        this.templatePath('_module.js'),
+        this.destinationPath(destinationPath + '/' + this.moduleName + '.module.js'), {
+          author: this.author,
+          module: this.moduleName,
+          date: (new Date()).toDateString()
+        }
+      );
     }
   },
 
   callSubgenerators: function () {
+    var options = {
+      isSubCall: true,
+      author: this.author,
+      moduleName: this.moduleName
+    };
     if(this.componentsToBeCreated.indexOf('controller') >= 0) {
       this.composeWith('reqionic:view', {
         arguments: [
           this.moduleName,
           this.moduleName
         ],
-        options: {
-          isSubCall: true,
-          author: this.author
-        }
+        options: options
       });
+    }
+
+    if(this.componentsToBeCreated.indexOf('service') >= 0) {
+      this.composeWith('reqionic:service', {
+        arguments: [
+          this.moduleName
+        ],
+        options: options
+      })
     }
   }
 });

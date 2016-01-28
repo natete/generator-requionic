@@ -8,14 +8,9 @@ module.exports = yeoman.generators.Base.extend({
   constructor: function() {
     yeoman.generators.Base.apply(this, arguments);
 
-    this.argument('moduleName', {
+    this.argument('serviceName', {
       type: String,
-      required: false
-    });
-
-    this.argument('viewName', {
-      type: String,
-      required: false
+      required: true
     });
   },
 
@@ -25,13 +20,13 @@ module.exports = yeoman.generators.Base.extend({
     // Have Yeoman greet the user.
     if(!this.options.isSubCall) {
       this.log(yosay(
-        'Welcome to the solid ' + chalk.red('generator-reqionic:view') + ' generator!'
+        'Welcome to the solid ' + chalk.red('generator-reqionic:service') + ' generator!'
       ));
     }
 
     var prompts = [];
 
-    if(!this.moduleName) {
+    if(!this.options.moduleName) {
       var prompt = {
         type: 'input',
         name: 'moduleName',
@@ -40,18 +35,18 @@ module.exports = yeoman.generators.Base.extend({
       prompts.push(prompt);
     }
 
-    if(!this.viewName) {
+    if(!this.options.author) {
       var prompt = {
         type: 'input',
-        name: 'viewName',
-        message: 'View name: '
+        name: 'author',
+        message: 'Author name: '
       }
     }
 
     if(prompts.length) {
       this.prompt(prompts, function (answers) {
-        this.moduleName = this.moduleName || answers.moduleName;
-        this.viewName = this.viewName || answers.viewName;
+        this.options.moduleName = this.options.moduleName || answers.moduleName;
+        this.options.author = this.options.author || answers.author;
 
         done();
       }.bind(this));
@@ -61,24 +56,16 @@ module.exports = yeoman.generators.Base.extend({
   },
 
   writing: {
-    createView: function () {
-      this.log(chalk.yellow('### Creating view ###'));
-      this.fs.copy(
-        this.templatePath('_view.js'),
-        this.destinationPath('www/js/' + this.moduleName + '/' + this.viewName + '.html')
-      );
-    },
-
-    createController: function() {
-      this.log(chalk.yellow('### Creating controller ###'));
-      var destinationPath = 'www/js/' + this.moduleName + '/' + _.toLower(this.viewName) + '.controller.js';
-      var controllerName = _.capitalize(this.viewName) + 'Controller';
+    createService: function () {
+      this.log(chalk.yellow('### Creating service ###'));
+      var destinationPath = 'www/js/' + this.options.moduleName + '/' + _.toLower(this.serviceName) + '.service.js';
+      var controllerName = _.capitalize(this.viewName) + 'Service';
       this.fs.copyTpl(
-        this.templatePath('_controller.js'),
+        this.templatePath('_service.js'),
         this.destinationPath(destinationPath),{
           author: this.options.author,
-          moduleName: this.moduleName,
-          controllerName: controllerName,
+          moduleName: this.options.moduleName,
+          serviceName: controllerName,
           date: (new Date()).toDateString()
         }
       )
