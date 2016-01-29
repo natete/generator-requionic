@@ -19,7 +19,9 @@
     "yeoman-generator",
     "require",
     "angularjs",
-    "yeoman-generator"
+    "ionic",
+    "hybrid",
+    "mobile"
   ],
   "dependencies": {
     "yeoman-generator": "^0.21.1",
