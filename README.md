@@ -16,7 +16,7 @@ Then generate your new project:
 yo reqionic
 ```
 
-## Deverlopment startup
+## Development startup
 ```bash
 cd generator-reqionic
 npm link
