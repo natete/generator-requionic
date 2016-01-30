@@ -26,7 +26,11 @@
   "dependencies": {
     "yeoman-generator": "^0.21.1",
     "chalk": "^1.0.0",
-    "yosay": "^1.0.2"
+    "yosay": "^1.0.2",
+    "cordova": "~6.0.0",
+    "bplist-parser": "~0.1.1",
+    "mkdirp": "~0.5.1",
+    "lodash": "~4.1.0"
   },
   "devDependencies": {
     "yeoman-assert": "^2.0.0",
