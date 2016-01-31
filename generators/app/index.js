@@ -136,8 +136,42 @@ module.exports = yeoman.generators.Base.extend({
         {
           appName: this.appName
         }
-      )
+      );
+
+      // Copy index.html templatePath
+      this.fs.copyTpl(
+        this.templatePath('_index.html'),
+        this.destinationPath(this.appName + '/www/index.html'),
+        {
+          appName: this.appName
+        }
+      );
+
+      // Copy main.js template to bootstrap the angular app and define all dependencies.
+      this.fs.copyTpl(
+        this.templatePath('_main.js'),
+        this.destinationPath(this.appName + '/www/js/main.js'),
+        {
+          author: this.author,
+          date: (new Date()).toDateString()
+        }
+      );
+
+      // Copy app.js template to create angular main module.
+      this.fs.copyTpl(
+        this.templatePath('_app.js'),
+        this.destinationPath(this.appName + '/www/js/app.js'),
+        {
+          author: this.author,
+          date: (new Date()).toDateString()
+        }
+      );
     }
+  },
+
+  install: function () {
+    process.chdir(this.appName);
+    this.installDependencies();
   },
 
   callSubgenerators: function () {

@@ -7,6 +7,7 @@ var minifyCss = require('gulp-minify-css');
 var rename = require('gulp-rename');
 var sh = require('shelljs');
 var plumber = require('gulp-plumber');
+var autoprefixer = require('autoprefixer');
 
 
 var paths = {
