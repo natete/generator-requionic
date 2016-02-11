@@ -93,6 +93,35 @@ module.exports = yeoman.generators.Base.extend({
     }
   },
 
+  modifyApp: function() {
+    this.log(chalk.yellow('### Modifying app.js ###'));
+    var destinationPath = 'www/js/' + this.moduleName;
+    var moduleName = this.moduleName;
+    this.fs.copy(
+      'www/js/app.js',
+      this.destinationPath('www/js/app.js'), {
+        process: function(content) {
+          var defineHook = '\/\/ Yeoman hook. Define section. Do not remove this comment.';
+          var dependenciesHook = '\/\/ Yeoman hook. Dependencies section. Do not remove this comment.';
+          var modifiers = [];
+          modifiers.push({
+            regEx: new RegExp(defineHook, 'g'),
+            replacer: ',\n\t\t\'./' + moduleName + '/main\'' + defineHook
+          });
+          modifiers.push({
+            regEx: new RegExp(dependenciesHook, 'g'),
+            replacer: ',\n\t\t\t\t\'app.' + moduleName + '\'' + dependenciesHook
+          });
+          var newContent = content.toString();
+          modifiers.forEach(function(modifier) {
+            newContent = newContent.replace(modifier.regEx, modifier.replacer);
+          });
+          return newContent;
+        }
+      }
+    );
+  },
+
   callSubgenerators: function () {
     var options = {
       isSubCall: true,

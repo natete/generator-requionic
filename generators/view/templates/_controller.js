@@ -30,7 +30,7 @@
 
       activate();
 
-      function(activate) {
+      function activate() {
         $log.debug('Activating ' + vm.class);
       }
     }

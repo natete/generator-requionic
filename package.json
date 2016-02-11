@@ -30,7 +30,7 @@
     "cordova": "~6.0.0",
     "bplist-parser": "~0.1.1",
     "mkdirp": "~0.5.1",
-    "lodash": "~4.1.0"
+    "lodash": "^4.0.0"
   },
   "devDependencies": {
     "yeoman-assert": "^2.0.0",

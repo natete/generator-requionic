@@ -81,6 +81,47 @@ module.exports = yeoman.generators.Base.extend({
           controllerName: controllerName,
           date: (new Date()).toDateString()
         }
+      );
+    },
+
+    createRoutes: function() {
+      this.log(chalk.yellow('### Creating routes ###'));
+      var destinationPath = 'www/js/' + this.moduleName + '/' + _.toLower(this.viewName) + '.routes.js';
+      var controllerName = _.capitalize(this.viewName) + 'Controller';
+      this.fs.copyTpl(
+        this.templatePath('_routes.js'),
+        this.destinationPath(destinationPath),{
+          author: this.options.author,
+          moduleName: this.moduleName,
+          controllerName: controllerName,
+          viewName: this.viewName,
+          date: (new Date()).toDateString()
+        }
+      );
+    },
+
+    createSyles: function() {
+      this.log(chalk.yellow('### Creating styles ###'));
+      var destinationPath = 'scss/partials/' + _.toLower(this.viewName) + '.scss';
+      this.fs.copyTpl(
+        this.templatePath('_styles.scss'),
+        this.destinationPath(destinationPath),{
+          viewName: this.viewName,
+        }
+      );
+
+      var appName = _.last(_.split(this.destinationRoot(), '/'));
+      var viewName = this.viewName;
+      this.fs.copy(
+        'scss/' + appName + '.scss',
+        this.destinationPath('scss/' + appName + '.scss'), {
+          process: function(content) {
+            var hook = '\/\/ Yeoman hook. Do not remove this comment.';
+            var regEx = new RegExp(hook, 'g');
+            var newContent = content.toString().replace(regEx, '@import "partials/' + viewName + '";\n' + hook);
+            return newContent;
+          }
+        }
       )
     }
   },
