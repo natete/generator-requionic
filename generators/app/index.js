@@ -66,7 +66,7 @@ module.exports = yeoman.generators.Base.extend({
       var wwwDir = this.appName + '/www';
       mkdirp(this.appName + '/hooks/after_prepare');
       mkdirp(this.appName + '/plugins');
-      mkdirp(this.appName + '/scss');
+      mkdirp(this.appName + '/scss/partials');
       mkdirp(wwwDir + '/css');
       mkdirp(wwwDir + '/img');
       mkdirp(wwwDir + '/js');
@@ -165,6 +165,17 @@ module.exports = yeoman.generators.Base.extend({
           author: this.author,
           date: (new Date()).toDateString()
         }
+      );
+
+      // Copy main scss to import all scss provided by ionic
+      this.fs.copy(
+        this.templatePath('_ionic.app.scss'),
+        this.destinationPath(this.appName + '/scss/ionic.app.scss')
+      );
+
+      this.fs.copy(
+        this.templatePath('_main.scss'),
+        this.destinationPath(this.appName + '/scss/' + this.appName +'.scss')
       );
     }
   },

@@ -26,7 +26,7 @@
     'ngCordova'
   ], function (angular, app, ngCordova) {
     'use strict';
-    app.run(function ($ionicPlatform, $cordovaStatusbar) {
+    app.run(function ($ionicPlatform) {
       $ionicPlatform.ready(function () {
 
         // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard

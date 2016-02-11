@@ -2,7 +2,7 @@
   "name": "<%= appName %>",
   "app_id": "",
   "gulpStartupTasks": [
-    "compass",
+    "sass",
     "watch"
   ],
   "watchPatterns": [
