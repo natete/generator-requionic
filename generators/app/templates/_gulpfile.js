@@ -11,7 +11,7 @@ var autoprefixer = require('gulp-autoprefixer');
 
 
 var paths = {
-  sass: ['./scss/**/*.scss']
+  sass: ['./scss/**/*.scss','./www/**/*.scss']
 };
 
 gulp.task('default', ['compass']);
