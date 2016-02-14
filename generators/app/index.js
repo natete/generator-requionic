@@ -69,36 +69,40 @@ module.exports = yeoman.generators.Base.extend({
       mkdirp(this.appName + '/scss/partials');
       mkdirp(wwwDir + '/css');
       mkdirp(wwwDir + '/img');
-      mkdirp(wwwDir + '/js');
+      mkdirp(wwwDir + '/js/core');
+      mkdirp(wwwDir + '/js/modules');
+      mkdirp(wwwDir + '/js/widgets');
       mkdirp(wwwDir + '/lib');
     },
+
+    // Copy .bowerrc
     createConfigFiles: function() {
-      // Copy .bowerrc
+      // Copy .bowerrc.
       this.fs.copy(
         this.templatePath('_.bowerrc'),
         this.destinationPath(this.appName + '/.bowerrc')
       );
 
-      // Copy .editorconfig
+      // Copy .editorconfig.
       this.fs.copy(
         this.templatePath('_.editorconfig'),
         this.destinationPath(this.appName + '/.editorconfig')
       );
 
-      // Copy .gitignore
+      // Copy .gitignore.
       this.fs.copy(
         this.templatePath('_.gitignore'),
         this.destinationPath(this.appName + '/.gitignore')
       );
 
-      // Copy bower.json with custom app name
+      // Copy bower.json with custom app name.
       this.fs.copyTpl(
         this.templatePath('_bower.json'),
         this.destinationPath(this.appName + '/bower.json'),
         { appName: this.appName }
       );
 
-      // Copy config.xml with retrieved data
+      // Copy config.xml with retrieved data.
       this.fs.copyTpl(
         this.templatePath('_config.xml'),
         this.destinationPath(this.appName + '/config.xml'),
@@ -111,7 +115,7 @@ module.exports = yeoman.generators.Base.extend({
         }
       );
 
-      // Copy gulpfile
+      // Copy gulpfile.
       this.fs.copyTpl(
         this.templatePath('_gulpfile.js'),
         this.destinationPath(this.appName + '/gulpfile.js'),
@@ -120,7 +124,7 @@ module.exports = yeoman.generators.Base.extend({
         }
       );
 
-      // Copy ionic.project
+      // Copy ionic.project.
       this.fs.copyTpl(
         this.templatePath('_ionic.project'),
         this.destinationPath(this.appName + '/ionic.project'),
@@ -129,7 +133,7 @@ module.exports = yeoman.generators.Base.extend({
         }
       );
 
-      // Copy package.json
+      // Copy package.json.
       this.fs.copyTpl(
         this.templatePath('_package.json'),
         this.destinationPath(this.appName + '/package.json'),
@@ -138,7 +142,7 @@ module.exports = yeoman.generators.Base.extend({
         }
       );
 
-      // Copy index.html templatePath
+      // Copy index.html templatePath.
       this.fs.copyTpl(
         this.templatePath('_index.html'),
         this.destinationPath(this.appName + '/www/index.html'),
@@ -167,15 +171,56 @@ module.exports = yeoman.generators.Base.extend({
         }
       );
 
-      // Copy main scss to import all scss provided by ionic
+      // Copy main scss to import all scss provided by ionic.
       this.fs.copy(
         this.templatePath('_ionic.app.scss'),
         this.destinationPath(this.appName + '/scss/ionic.app.scss')
       );
 
+      // Create main.scss.
       this.fs.copy(
         this.templatePath('_main.scss'),
         this.destinationPath(this.appName + '/scss/' + this.appName +'.scss')
+      );
+
+      // Create core module.
+      this.fs.copyTpl(
+        this.templatePath('_core.module.js'),
+        this.destinationPath(this.appName + '/www/js/core/core.module.js'),
+        {
+          author: this.author,
+          date: (new Date()).toDateString()
+        }
+      );
+
+      // Create core require main file.
+      this.fs.copyTpl(
+        this.templatePath('_core.main.js'),
+        this.destinationPath(this.appName + '/www/js/core/main.js'),
+        {
+          author: this.author,
+          date: (new Date()).toDateString()
+        }
+      )
+
+      // Create widgets module.
+      this.fs.copyTpl(
+        this.templatePath('_widgets.module.js'),
+        this.destinationPath(this.appName + '/www/js/widgets/widgets.module.js'),
+        {
+          author: this.author,
+          date: (new Date()).toDateString()
+        }
+      );
+
+      // Create widget require main file.
+      this.fs.copyTpl(
+        this.templatePath('_widgets.main.js'),
+        this.destinationPath(this.appName + '/www/js/widgets/main.js'),
+        {
+          author: this.author,
+          date: (new Date()).toDateString()
+        }
       );
     }
   },

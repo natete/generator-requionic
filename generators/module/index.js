@@ -66,7 +66,7 @@ module.exports = yeoman.generators.Base.extend({
   writing: {
     createMain: function () {
       var module = this.moduleName;
-      var destinationPath = 'www/js/' + this.moduleName;
+      var destinationPath = 'www/js/modules/' + this.moduleName;
       this.log(chalk.yellow('### Creating main ###'));
       this.log(chalk.yellow('### Components: ' + JSON.stringify(this.componentsToBeCreated) + ' ###'));
       this.fs.copyTpl(
@@ -81,7 +81,7 @@ module.exports = yeoman.generators.Base.extend({
 
     createModule: function() {
       this.log(chalk.yellow('### Creating module ' + this.moduleName + ' ###'));
-      var destinationPath = 'www/js/' + this.moduleName;
+      var destinationPath = 'www/js/modules/' + this.moduleName;
       this.fs.copyTpl(
         this.templatePath('_module.js'),
         this.destinationPath(destinationPath + '/' + this.moduleName + '.module.js'), {
@@ -95,7 +95,7 @@ module.exports = yeoman.generators.Base.extend({
 
   modifyApp: function() {
     this.log(chalk.yellow('### Modifying app.js ###'));
-    var destinationPath = 'www/js/' + this.moduleName;
+    var destinationPath = 'www/js/modules/' + this.moduleName;
     var moduleName = this.moduleName;
     this.fs.copy(
       'www/js/app.js',
@@ -106,7 +106,7 @@ module.exports = yeoman.generators.Base.extend({
           var modifiers = [];
           modifiers.push({
             regEx: new RegExp(defineHook, 'g'),
-            replacer: ',\n\t\t\'./' + moduleName + '/main\'' + defineHook
+            replacer: ',\n\t\t\'./modules/' + moduleName + '/main\'' + defineHook
           });
           modifiers.push({
             regEx: new RegExp(dependenciesHook, 'g'),

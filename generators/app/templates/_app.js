@@ -6,12 +6,16 @@
 */
 (function () {
   define([
-    'angular'// Yeoman hook. Define section. Do not remove this comment.
+    'angular',
+    './core/main',
+    './widgets/main'// Yeoman hook. Define section. Do not remove this comment.
   ],
     function (angular) {
       'use strict';
       var app = angular.module('app', [
-        'ionic'// Yeoman hook. Dependencies section. Do not remove this comment.
+        'ionic',
+        'app.core',
+        'app.widgets'// Yeoman hook. Dependencies section. Do not remove this comment.
       ]);
 
       app.config(Config);

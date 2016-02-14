@@ -65,19 +65,19 @@ module.exports = yeoman.generators.Base.extend({
       this.log(chalk.yellow('### Creating view ###'));
       this.fs.copy(
         this.templatePath('_view.js'),
-        this.destinationPath('www/js/' + this.moduleName + '/' + this.viewName + '.html')
+        this.destinationPath('www/js/modules/' + _.toLower(this.moduleName) + '/' + _.toLower(this.viewName) + '.html')
       );
     },
 
     createController: function() {
       this.log(chalk.yellow('### Creating controller ###'));
-      var destinationPath = 'www/js/' + this.moduleName + '/' + _.toLower(this.viewName) + '.controller.js';
+      var destinationPath = 'www/js/modules/' + this.moduleName + '/' + _.toLower(this.viewName) + '.controller.js';
       var controllerName = _.capitalize(this.viewName) + 'Controller';
       this.fs.copyTpl(
         this.templatePath('_controller.js'),
         this.destinationPath(destinationPath),{
           author: this.options.author,
-          moduleName: this.moduleName,
+          moduleName: _.toLower(this.moduleName),
           controllerName: controllerName,
           date: (new Date()).toDateString()
         }
@@ -86,15 +86,15 @@ module.exports = yeoman.generators.Base.extend({
 
     createRoutes: function() {
       this.log(chalk.yellow('### Creating routes ###'));
-      var destinationPath = 'www/js/' + this.moduleName + '/' + _.toLower(this.viewName) + '.routes.js';
+      var destinationPath = 'www/js/modules/' + this.moduleName + '/' + _.toLower(this.viewName) + '.routes.js';
       var controllerName = _.capitalize(this.viewName) + 'Controller';
       this.fs.copyTpl(
         this.templatePath('_routes.js'),
         this.destinationPath(destinationPath),{
           author: this.options.author,
-          moduleName: this.moduleName,
+          moduleName: _.toLower(this.moduleName),
           controllerName: controllerName,
-          viewName: this.viewName,
+          viewName: _.toLower(this.viewName),
           date: (new Date()).toDateString()
         }
       );
@@ -102,23 +102,23 @@ module.exports = yeoman.generators.Base.extend({
 
     createSyles: function() {
       this.log(chalk.yellow('### Creating styles ###'));
-      var destinationPath = 'scss/partials/' + _.toLower(this.viewName) + '.scss';
+      var destinationPath = 'www/js/modules/' + _.toLower(this.viewName) + '.scss';
       this.fs.copyTpl(
         this.templatePath('_styles.scss'),
         this.destinationPath(destinationPath),{
-          viewName: this.viewName,
+          viewName: _.toLower(this.viewName),
         }
       );
 
       var appName = _.last(_.split(this.destinationRoot(), '/'));
-      var viewName = this.viewName;
+      var viewName = _.toLower(this.viewName);
       this.fs.copy(
         'scss/' + appName + '.scss',
         this.destinationPath('scss/' + appName + '.scss'), {
           process: function(content) {
             var hook = '\/\/ Yeoman hook. Do not remove this comment.';
             var regEx = new RegExp(hook, 'g');
-            var newContent = content.toString().replace(regEx, '@import "partials/' + viewName + '";\n' + hook);
+            var newContent = content.toString().replace(regEx, '@import "' + '../www/js/modules/' + viewName + '";\n' + hook);
             return newContent;
           }
         }
