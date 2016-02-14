@@ -3,26 +3,7 @@
 
 ## Installation
 
-First, install [Yeoman](http://yeoman.io) and generator-reqionic using [npm](https://www.npmjs.com/) (we assume you have pre-installed [node.js](https://nodejs.org/)).
-
-```bash
-npm install -g yo
-npm install -g generator-reqionic
-```
-
-Then generate your new project:
-
-```bash
-yo reqionic
-```
-
-## Development startup
-```bash
-cd generator-reqionic
-npm link
-```
-
-
+Check our [setup wiki](https://github.com/natete/generator-reqionic/wiki/Setup) page.
 
 ## Getting To Know Yeoman
 
