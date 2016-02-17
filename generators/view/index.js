@@ -65,7 +65,7 @@ module.exports = yeoman.generators.Base.extend({
     createView: function() {
       this.log(chalk.yellow('### Creating view ###'));
       this.fs.copy(
-        this.templatePath('_view.js'),
+        this.templatePath('_view.html'),
         this.destinationPath('www/js/modules/' + _.toLower(this.moduleName) +
           '/' + _.toLower(this.viewName) + '.html')
       );
@@ -106,9 +106,8 @@ module.exports = yeoman.generators.Base.extend({
 
     createSyles: function() {
       this.log(chalk.yellow('### Creating styles ###'));
-      var destinationPath = 'www/js/modules/' + this.moduleName + '/' + _
-        .toLower(
-          this.viewName) + '.scss';
+      var destinationPath = 'www/js/modules/' + this.moduleName + '/' +
+        _.toLower(this.viewName) + '.scss';
       this.fs.copyTpl(
         this.templatePath('_styles.scss'),
         this.destinationPath(destinationPath), {
