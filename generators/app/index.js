@@ -13,45 +13,59 @@ module.exports = yeoman.generators.Base.extend({
 
     this.argument('appName', {
       type: String,
-      required: true
+      required: false
     });
   },
 
-  prompting: function () {
+  prompting: function() {
     var self = this;
     var done = self.async();
 
     // Have Yeoman greet the user.
     self.log(yosay(
-      'Welcome to the super-excellent ' + chalk.red('generator-reqionic') + ' generator!\n by'
+      'Welcome to the super-excellent ' + chalk.red(
+        'generator-reqionic') + ' generator!\n by'
     ));
     self.log(utils.greeting);
 
-    var prompts = [
-      {
-        type: 'input',
-        name: 'author',
-        message: 'Author name:',
-        store: true
-      }, {
-        type: 'input',
-        name: 'email',
-        message: 'Email:',
-        default: 'example@example.com',
-        store: true
-      }, {
-        type: 'input',
-        name: 'website',
-        message: 'Website:',
-        default: 'http://www.' + this.appName + '.com'
-      }, {
-        type: 'input',
-        name: 'description',
-        message: 'Description: ',
-        default:'A super awesome ionic app'
-      }
-    ];
+    var prompts = [];
 
+    if (!this.appName) {
+      var prompt = {
+        type: 'input',
+        name: 'appName',
+        message: 'App name: '
+      }
+      prompts.push(prompt);
+    }
+
+    prompts.push({
+      type: 'input',
+      name: 'author',
+      message: 'Author name:',
+      store: true
+    });
+
+    prompts.push({
+      type: 'input',
+      name: 'email',
+      message: 'Email:',
+      default: 'example@example.com',
+      store: true
+    });
+    prompts.push({
+      type: 'input',
+      name: 'website',
+      message: 'Website:',
+      default: 'http://www.' + this.appName + '.com'
+    });
+
+    prompts.push({
+      type: 'input',
+      name: 'description',
+      message: 'Description: ',
+      default: 'A super awesome ionic app'
+    });
 
     self.prompt(prompts, function(answers) {
       _.forEach(answers, function(value, key) {
@@ -62,7 +76,7 @@ module.exports = yeoman.generators.Base.extend({
   },
 
   writing: {
-    createFolders: function () {
+    createFolders: function() {
       var wwwDir = this.appName + '/www';
       mkdirp(this.appName + '/hooks/after_prepare');
       mkdirp(this.appName + '/plugins');
@@ -98,15 +112,15 @@ module.exports = yeoman.generators.Base.extend({
       // Copy bower.json with custom app name.
       this.fs.copyTpl(
         this.templatePath('_bower.json'),
-        this.destinationPath(this.appName + '/bower.json'),
-        { appName: this.appName }
+        this.destinationPath(this.appName + '/bower.json'), {
+          appName: this.appName
+        }
       );
 
       // Copy config.xml with retrieved data.
       this.fs.copyTpl(
         this.templatePath('_config.xml'),
-        this.destinationPath(this.appName + '/config.xml'),
-        {
+        this.destinationPath(this.appName + '/config.xml'), {
           appName: this.appName,
           author: this.author,
           email: this.email,
@@ -118,8 +132,7 @@ module.exports = yeoman.generators.Base.extend({
       // Copy gulpfile.
       this.fs.copyTpl(
         this.templatePath('_gulpfile.js'),
-        this.destinationPath(this.appName + '/gulpfile.js'),
-        {
+        this.destinationPath(this.appName + '/gulpfile.js'), {
           appName: this.appName
         }
       );
@@ -127,8 +140,7 @@ module.exports = yeoman.generators.Base.extend({
       // Copy ionic.project.
       this.fs.copyTpl(
         this.templatePath('_ionic.project'),
-        this.destinationPath(this.appName + '/ionic.project'),
-        {
+        this.destinationPath(this.appName + '/ionic.project'), {
           appName: this.appName
         }
       );
@@ -136,8 +148,7 @@ module.exports = yeoman.generators.Base.extend({
       // Copy package.json.
       this.fs.copyTpl(
         this.templatePath('_package.json'),
-        this.destinationPath(this.appName + '/package.json'),
-        {
+        this.destinationPath(this.appName + '/package.json'), {
           appName: this.appName
         }
       );
@@ -145,8 +156,7 @@ module.exports = yeoman.generators.Base.extend({
       // Copy index.html templatePath.
       this.fs.copyTpl(
         this.templatePath('_index.html'),
-        this.destinationPath(this.appName + '/www/index.html'),
-        {
+        this.destinationPath(this.appName + '/www/index.html'), {
           appName: this.appName
         }
       );
@@ -154,8 +164,7 @@ module.exports = yeoman.generators.Base.extend({
       // Copy main.js template to bootstrap the angular app and define all dependencies.
       this.fs.copyTpl(
         this.templatePath('_main.js'),
-        this.destinationPath(this.appName + '/www/js/main.js'),
-        {
+        this.destinationPath(this.appName + '/www/js/main.js'), {
           author: this.author,
           date: (new Date()).toDateString()
         }
@@ -164,8 +173,7 @@ module.exports = yeoman.generators.Base.extend({
       // Copy app.js template to create angular main module.
       this.fs.copyTpl(
         this.templatePath('_app.js'),
-        this.destinationPath(this.appName + '/www/js/app.js'),
-        {
+        this.destinationPath(this.appName + '/www/js/app.js'), {
           author: this.author,
           date: (new Date()).toDateString()
         }
@@ -180,14 +188,15 @@ module.exports = yeoman.generators.Base.extend({
       // Create main.scss.
       this.fs.copy(
         this.templatePath('_main.scss'),
-        this.destinationPath(this.appName + '/scss/' + this.appName +'.scss')
+        this.destinationPath(this.appName + '/scss/' + this.appName +
+          '.scss')
       );
 
       // Create core module.
       this.fs.copyTpl(
         this.templatePath('_core.module.js'),
-        this.destinationPath(this.appName + '/www/js/core/core.module.js'),
-        {
+        this.destinationPath(this.appName +
+          '/www/js/core/core.module.js'), {
           author: this.author,
           date: (new Date()).toDateString()
         }
@@ -196,8 +205,7 @@ module.exports = yeoman.generators.Base.extend({
       // Create core require main file.
       this.fs.copyTpl(
         this.templatePath('_core.main.js'),
-        this.destinationPath(this.appName + '/www/js/core/main.js'),
-        {
+        this.destinationPath(this.appName + '/www/js/core/main.js'), {
           author: this.author,
           date: (new Date()).toDateString()
         }
@@ -206,8 +214,8 @@ module.exports = yeoman.generators.Base.extend({
       // Create widgets module.
       this.fs.copyTpl(
         this.templatePath('_widgets.module.js'),
-        this.destinationPath(this.appName + '/www/js/widgets/widgets.module.js'),
-        {
+        this.destinationPath(this.appName +
+          '/www/js/widgets/widgets.module.js'), {
           author: this.author,
           date: (new Date()).toDateString()
         }
@@ -216,8 +224,7 @@ module.exports = yeoman.generators.Base.extend({
       // Create widget require main file.
       this.fs.copyTpl(
         this.templatePath('_widgets.main.js'),
-        this.destinationPath(this.appName + '/www/js/widgets/main.js'),
-        {
+        this.destinationPath(this.appName + '/www/js/widgets/main.js'), {
           author: this.author,
           date: (new Date()).toDateString()
         }
@@ -225,12 +232,12 @@ module.exports = yeoman.generators.Base.extend({
     }
   },
 
-  install: function () {
+  install: function() {
     process.chdir(this.appName);
     this.installDependencies();
   },
 
-  callSubgenerators: function () {
+  callSubgenerators: function() {
     // this.composeWith('reqionic:module', {
     //   arguments: [
     //     this.appName
