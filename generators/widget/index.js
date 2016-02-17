@@ -31,9 +31,11 @@ module.exports = yeoman.generators.Base.extend({
     if(this.widgetName) {
       // A widget was specified in the command, check if it is available
       if (this.fs.exists(this.templatePath(this.widgetName  + '/main.js'))) {
+        // The widget is available, continue with the process
         this.widgetsToInclude = [this.widgetName];
         done();
       } else {
+        // The widget is not currently available, abort the generation process
         this.env.error("The requested component is not currently available");
       }
 
