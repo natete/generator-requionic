@@ -16,9 +16,9 @@ gulp.task('static', function () {
     .pipe(eslint.failAfterError());
 });
 
-gulp.task('nsp', function (cb) {
-  nsp({package: path.resolve('package.json')}, cb);
-});
+//gulp.task('nsp', function (cb) {
+//  nsp({package: path.resolve('package.json')}, cb);
+//});
 
 gulp.task('pre-test', function () {
   return gulp.src('generators/**/*.js')
