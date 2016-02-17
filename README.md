@@ -9,10 +9,11 @@ Check our [setup wiki](https://github.com/natete/generator-reqionic/wiki/Setup) 
 
 Yeoman has a heart of gold. He&#39;s a person with feelings and opinions, but he&#39;s very easy to work with. If you think he&#39;s too opinionated, he can be easily convinced. Feel free to [learn more about him](http://yeoman.io/).
 
+***
+[![](https://pbs.twimg.com/profile_images/666407537084796928/YBGgi9BO_normal.png)](https://twitter.com/reqionic)
+***
 ## License
-
 MIT © [natete](https://github.com/natete/)
-
 
 [npm-image]: https://badge.fury.io/js/generator-reqionic.svg
 [npm-url]: https://npmjs.org/package/generator-reqionic
