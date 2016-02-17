@@ -11,7 +11,7 @@ Yeoman has a heart of gold. He&#39;s a person with feelings and opinions, but he
 
 ## License
 
-MIT © [natete]()
+MIT © [natete](https://github.com/natete/)
 
 
 [npm-image]: https://badge.fury.io/js/generator-reqionic.svg
