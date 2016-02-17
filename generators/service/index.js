@@ -14,19 +14,20 @@ module.exports = yeoman.generators.Base.extend({
     });
   },
 
-  prompting: function () {
+  prompting: function() {
     var done = this.async();
 
     // Have Yeoman greet the user.
-    if(!this.options.isSubCall) {
+    if (!this.options.isSubCall) {
       this.log(yosay(
-        'Welcome to the solid ' + chalk.red('generator-reqionic:service') + ' generator!'
+        'Welcome to the solid ' + chalk.red(
+          'generator-reqionic:service') + ' generator!'
       ));
     }
 
     var prompts = [];
 
-    if(!this.options.moduleName) {
+    if (!this.options.moduleName) {
       var prompt = {
         type: 'input',
         name: 'moduleName',
@@ -35,7 +36,7 @@ module.exports = yeoman.generators.Base.extend({
       prompts.push(prompt);
     }
 
-    if(!this.options.author) {
+    if (!this.options.author) {
       var prompt = {
         type: 'input',
         name: 'author',
@@ -43,8 +44,8 @@ module.exports = yeoman.generators.Base.extend({
       }
     }
 
-    if(prompts.length) {
-      this.prompt(prompts, function (answers) {
+    if (prompts.length) {
+      this.prompt(prompts, function(answers) {
         this.options.moduleName = this.options.moduleName || answers.moduleName;
         this.options.author = this.options.author || answers.author;
 
@@ -56,13 +57,14 @@ module.exports = yeoman.generators.Base.extend({
   },
 
   writing: {
-    createService: function () {
+    createService: function() {
       this.log(chalk.yellow('### Creating service ###'));
-      var destinationPath = 'www/js/' + this.options.moduleName + '/' + _.toLower(this.serviceName) + '.service.js';
+      var destinationPath = 'www/js/modules/' + this.options.moduleName +
+        '/' + _.toLower(this.serviceName) + '.service.js';
       var controllerName = _.capitalize(this.viewName) + 'Service';
       this.fs.copyTpl(
         this.templatePath('_service.js'),
-        this.destinationPath(destinationPath),{
+        this.destinationPath(destinationPath), {
           author: this.options.author,
           moduleName: this.options.moduleName,
           serviceName: controllerName,
@@ -72,7 +74,7 @@ module.exports = yeoman.generators.Base.extend({
     }
   },
 
-  install: function () {
+  install: function() {
     // this.installDependencies();
   }
 });
