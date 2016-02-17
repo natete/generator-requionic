@@ -29,6 +29,7 @@ module.exports = yeoman.generators.Base.extend({
     }];
 
     if(this.widgetName) {
+      // A widget was specified in the command, check if it is available
       if (this.fs.exists(this.templatePath(this.widgetName  + '/main.js'))) {
         this.widgetsToInclude = [this.widgetName];
         done();
@@ -37,6 +38,7 @@ module.exports = yeoman.generators.Base.extend({
       }
 
     } else {
+      // No name was specified in the command line, ask for it
       self.prompt(prompts, function (answers) {
         this.widgetsToInclude = answers.widgetsToInclude;
 
