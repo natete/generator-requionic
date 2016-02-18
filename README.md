@@ -3,7 +3,7 @@
 
 ## Installation
 
-Check our [setup wiki](https://github.com/natete/generator-reqionic/wiki/Setup) page.
+Check our [setup wiki](https://github.com/natete/generator-reqionic/wiki) page.
 
 ## Getting To Know Yeoman
 
