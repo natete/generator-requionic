@@ -1,6 +1,9 @@
 # generator-reqionic [![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Dependency Status][daviddm-image]][daviddm-url]
 > Bootstraps an ionic app using requiere and John Papa&#39;s styleguide
 
+
+![![](https://github.com/natete/generator-reqionic)](https://github.com/natete/generator-reqionic/blob/master/resources/logo.png)
+
 ## Installation
 
 Check our [setup wiki](https://github.com/natete/generator-reqionic/wiki) page.
