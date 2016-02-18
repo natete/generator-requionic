@@ -4,9 +4,10 @@
 
 ![![](https://github.com/natete/generator-reqionic)](https://github.com/natete/generator-reqionic/blob/master/resources/logo.png)
 
-## Installation
 
-Check our [setup wiki](https://github.com/natete/generator-reqionic/wiki) page.
+Reqionic is a Yeoman scafolding generator to buils hibrid applications based in Ionic framework and following Jhon's Papa style guide for AngularJS project. Saving time and cleaning style is the main advantage of require. With just a few commands will be ready as a developer starting a new application effortlessly with Ionic.
+
+## More information [WIKI](https://github.com/natete/generator-reqionic/wiki) page.
 
 ## Getting To Know Yeoman
 
