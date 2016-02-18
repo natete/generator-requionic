@@ -22,6 +22,8 @@
           controllerAs: '<%= viewName + "Ctrl" %>'
         });
 
+        // Yeoman hook. States section. Do not remove this comment.
+
         $urlRouterProvider.otherwise('/');
       }
     });
