@@ -41,9 +41,6 @@ module.exports = yeoman.generators.Base.extend({
         name: 'Controller',
         value: 'controller'
       }, {
-        name: 'Routes',
-        value: 'routes'
-      }, {
         name: 'Directive',
         value: 'directive'
       }, {
@@ -139,6 +136,15 @@ module.exports = yeoman.generators.Base.extend({
     }
 
     if(this.componentsToBeCreated.indexOf('service') >= 0) {
+      this.composeWith('reqionic:service', {
+        arguments: [
+          this.moduleName
+        ],
+        options: options
+      });
+    }
+
+    if(this.componentsToBeCreated.indexOf('factory') >= 0) {
       this.composeWith('reqionic:service', {
         arguments: [
           this.moduleName

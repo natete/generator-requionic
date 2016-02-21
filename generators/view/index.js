@@ -9,11 +9,6 @@ module.exports = yeoman.generators.Base.extend({
   constructor: function() {
     yeoman.generators.Base.apply(this, arguments);
 
-    this.argument('moduleName', {
-      type: String,
-      required: false
-    });
-
     this.argument('viewName', {
       type: String,
       required: false
@@ -33,15 +28,6 @@ module.exports = yeoman.generators.Base.extend({
 
     var prompts = [];
 
-    if (!this.moduleName) {
-      var prompt = {
-        type: 'input',
-        name: 'moduleName',
-        message: 'Module name: '
-      }
-      prompts.push(prompt);
-    }
-
     if (!this.viewName) {
       var prompt = {
         type: 'input',
@@ -50,10 +36,28 @@ module.exports = yeoman.generators.Base.extend({
       }
     }
 
+    if (!this.options.moduleName) {
+      var prompt = {
+        type: 'input',
+        name: 'moduleName',
+        message: 'Module name: '
+      }
+      prompts.push(prompt);
+    }
+
+    if (!this.options.author) {
+      var prompt = {
+        type: 'input',
+        name: 'author',
+        message: 'Author name: '
+      }
+    }
+
     if (prompts.length) {
       this.prompt(prompts, function(answers) {
-        this.moduleName = this.moduleName || answers.moduleName;
         this.viewName = this.viewName || answers.viewName;
+        this.options.moduleName = this.options.moduleName || answers.moduleName;
+        this.options.author = this.options.author || answers.author;
 
         done();
       }.bind(this));
@@ -67,20 +71,20 @@ module.exports = yeoman.generators.Base.extend({
       this.log(chalk.yellow('### Creating view ###'));
       this.fs.copy(
         this.templatePath('_view.html'),
-        this.destinationPath('www/js/modules/' + _.toLower(this.moduleName) +
+        this.destinationPath('www/js/modules/' + _.toLower(this.options.moduleName) +
         '/' + _.toLower(this.viewName) + '.html')
       );
     },
 
     createController: function() {
       this.log(chalk.yellow('### Creating controller ###'));
-      var destinationPath = 'www/js/modules/' + this.moduleName + '/' + _.toLower(this.viewName) + '.controller.js';
+      var destinationPath = 'www/js/modules/' + this.options.moduleName + '/' + _.toLower(this.viewName) + '.controller.js';
       var controllerName = _.capitalize(this.viewName) + 'Controller';
       this.fs.copyTpl(
         this.templatePath('_controller.js'),
         this.destinationPath(destinationPath), {
           author: this.options.author,
-          moduleName: _.toLower(this.moduleName),
+          moduleName: _.toLower(this.options.moduleName),
           controllerName: controllerName,
           date: (new Date()).toDateString()
         }
@@ -88,15 +92,15 @@ module.exports = yeoman.generators.Base.extend({
     },
 
     createRoutes: function() {
-      if(!this.fs.exists('www/js/modules/' +  _.toLower(this.moduleName) + '/' + _.toLower(this.moduleName) + '.routes.js')) {
+      if(!this.fs.exists('www/js/modules/' +  _.toLower(this.options.moduleName) + '/' + _.toLower(this.options.moduleName) + '.routes.js')) {
         this.log(chalk.yellow('### Creating routes ###'));
-        var destinationPath = 'www/js/modules/' +  _.toLower(this.moduleName) + '/' + _.toLower(this.moduleName) + '.routes.js';
+        var destinationPath = 'www/js/modules/' +  _.toLower(this.options.moduleName) + '/' + _.toLower(this.options.moduleName) + '.routes.js';
         var controllerName = _.capitalize(this.viewName) + 'Controller';
         this.fs.copyTpl(
           this.templatePath('_routes.js'),
           this.destinationPath(destinationPath), {
             author: this.options.author,
-            moduleName: _.toLower(this.moduleName),
+            moduleName: _.toLower(this.options.moduleName),
             controllerName: controllerName,
             viewName: _.toLower(this.viewName),
             date: (new Date()).toDateString()
@@ -112,7 +116,7 @@ module.exports = yeoman.generators.Base.extend({
         this.log(chalk.yellow('### Modifying routes ###'));
         var stateTemplate = this.fs.read(this.templatePath('_state.js'));
         var controllerName = _.capitalize(this.viewName) + 'Controller';
-        var destinationPath = 'www/js/modules/' +  _.toLower(this.moduleName) + '/' + _.toLower(this.moduleName) + '.routes.js';
+        var destinationPath = 'www/js/modules/' +  _.toLower(this.options.moduleName) + '/' + _.toLower(this.options.moduleName) + '.routes.js';
         var processedState = ejs.render(stateTemplate, {
           controllerName: controllerName,
           viewName: _.toLower(this.viewName),
@@ -135,7 +139,7 @@ module.exports = yeoman.generators.Base.extend({
 
     createSyles: function() {
       this.log(chalk.yellow('### Creating styles ###'));
-      var destinationPath = 'www/js/modules/' + this.moduleName + '/' + _.toLower(this.viewName) + '.scss';
+      var destinationPath = 'www/js/modules/' + this.options.moduleName + '/' + _.toLower(this.viewName) + '.scss';
       this.fs.copyTpl(
         this.templatePath('_styles.scss'),
         this.destinationPath(destinationPath), {

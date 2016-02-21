@@ -10,7 +10,7 @@ module.exports = yeoman.generators.Base.extend({
 
     this.argument('serviceName', {
       type: String,
-      required: true
+      required: false
     });
   },
 
@@ -26,6 +26,15 @@ module.exports = yeoman.generators.Base.extend({
     }
 
     var prompts = [];
+
+    if (!this.serviceName) {
+      var prompt = {
+        type: 'input',
+        name: 'serviceName',
+        message: 'Service name: '
+      }
+      prompts.push(prompt);
+    }
 
     if (!this.options.moduleName) {
       var prompt = {
@@ -46,6 +55,7 @@ module.exports = yeoman.generators.Base.extend({
 
     if (prompts.length) {
       this.prompt(prompts, function(answers) {
+        this.serviceName = this.serviceName || answers.serviceName;
         this.options.moduleName = this.options.moduleName || answers.moduleName;
         this.options.author = this.options.author || answers.author;
 
@@ -61,13 +71,13 @@ module.exports = yeoman.generators.Base.extend({
       this.log(chalk.yellow('### Creating service ###'));
       var destinationPath = 'www/js/modules/' + this.options.moduleName +
         '/' + _.toLower(this.serviceName) + '.service.js';
-      var controllerName = _.capitalize(this.viewName) + 'Service';
+      var serviceName = _.capitalize(this.serviceName) + 'Service';
       this.fs.copyTpl(
         this.templatePath('_service.js'),
         this.destinationPath(destinationPath), {
           author: this.options.author,
           moduleName: this.options.moduleName,
-          serviceName: controllerName,
+          serviceName: serviceName,
           date: (new Date()).toDateString()
         }
       )
