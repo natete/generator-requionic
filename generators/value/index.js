@@ -41,11 +41,11 @@ module.exports = yeoman.generators.Base.extend({
   },
 
   writing: {
-    createConstant: function() {
+    createValue: function() {
       this.log(chalk.yellow('### Creating values ###'));
       var destinationPath = 'www/js/modules/' + this.options.moduleName + '/' + _.toLower(this.options.moduleName) + '.value.js';
       this.fs.copyTpl(
-        this.templatePath('_constant.js'),
+        this.templatePath('_value.js'),
         this.destinationPath(destinationPath), {
           author: this.options.author,
           moduleName: _.toLower(this.options.moduleName),
