@@ -42,7 +42,7 @@ module.exports = yeoman.generators.Base.extend({
 
   writing: {
     createConstant: function() {
-      this.log(chalk.yellow('### Creating constant ###'));
+      this.log(chalk.yellow('### Creating constants ###'));
       var destinationPath = 'www/js/modules/' + this.options.moduleName + '/' + _.toLower(this.options.moduleName) + '.constant.js';
       this.fs.copyTpl(
         this.templatePath('_constant.js'),
@@ -65,7 +65,7 @@ module.exports = yeoman.generators.Base.extend({
           process: function(content) {
             var hook = '\/\/ Yeoman hook. Define section. Do not remove this comment.';
             var regEx = new RegExp(hook, 'g');
-            var substitutionString = "'./" + _.toLower(self.serviceName) + ".constant.js',\n";
+            var substitutionString = "'./" + _.toLower(self.options.moduleName) + ".constant.js',\n";
             return content.toString().replace(regEx, substitutionString + hook);
           }
         }
