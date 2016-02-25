@@ -139,7 +139,7 @@ module.exports = yeoman.generators.Base.extend({
 
     createSyles: function() {
       this.log(chalk.yellow('### Creating styles ###'));
-      var destinationPath = 'www/js/modules/' + this.options.moduleName + '/' + _.toLower(this.viewName) + '.scss';
+      var destinationPath = 'www/js/modules/' + _.toLower(this.options.moduleName) + '/' + _.toLower(this.viewName) + '.scss';
       this.fs.copyTpl(
         this.templatePath('_styles.scss'),
         this.destinationPath(destinationPath), {
@@ -156,7 +156,7 @@ module.exports = yeoman.generators.Base.extend({
             var hook = '\/\/ Yeoman hook. Do not remove this comment.';
             var regEx = new RegExp(hook, 'g');
             var newContent = content.toString().replace(regEx,
-              '@import "' + '../www/js/modules/' + viewName +
+              '@import "' + '../www/js/modules/' + _.toLower(this.options.moduleName)  + '/' + viewName +
               '";\n' + hook);
               return newContent;
             }
