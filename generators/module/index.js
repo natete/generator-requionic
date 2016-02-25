@@ -11,7 +11,7 @@ module.exports = yeoman.generators.Base.extend({
 
     this.argument('moduleName', {
       type: String,
-      required: true
+      required: false
     });
 
   },
@@ -27,33 +27,57 @@ module.exports = yeoman.generators.Base.extend({
       ));
       self.log(utils.greeting);
     }
+    var prompts = [];
 
-    var prompts = [{
-      type: 'input',
-      name: 'author',
-      message: 'Author name:',
-      store: true
-    }, {
-      type: 'checkbox',
-      name: 'componentsToBeCreated',
-      message: 'Which components do you need to be created?',
-      choices: [{
-        name: 'Controller',
-        value: 'controller'
-      }, {
-        name: 'Directive',
-        value: 'directive'
-      }, {
-        name: 'Factory',
-        value: 'factory'
-      }, {
-        name: 'Service',
-        value: 'service'
-      }]
-    }];
+    if(!this.moduleName) {
+      var prompt = {
+        type: 'input',
+        name: 'moduleName',
+        message: 'Module name',
+      }
+
+      prompts.push(prompt);
+    }
+
+    if (!this.options.author) {
+      var prompt = {
+        type: 'input',
+        name: 'author',
+        message: 'Author name: ',
+        store: true
+      }
+      prompts.push(prompt);
+    }
+
+    prompts.push(
+      {
+        type: 'checkbox',
+        name: 'componentsToBeCreated',
+        message: 'Which components do you need to be created?',
+        choices: [
+          {
+            name: 'Controller',
+            value: 'controller'
+          },
+          {
+            name: 'Directive',
+            value: 'directive'
+          },
+          {
+            name: 'Factory',
+            value: 'factory'
+          },
+          {
+            name: 'Service',
+            value: 'service'
+          }
+        ]
+      }
+    );
 
     self.prompt(prompts, function (answers) {
-      this.author = answers.author;
+      this.moduleName = this.moduleName || answers.moduleName;
+      this.options.author = this.options.author || answers.author;
       this.componentsToBeCreated = answers.componentsToBeCreated;
 
       done();
@@ -69,9 +93,8 @@ module.exports = yeoman.generators.Base.extend({
       this.fs.copyTpl(
         this.templatePath('_main.js'),
         this.destinationPath(destinationPath + '/main.js'), {
-          author: this.author,
-          module: module,
-          components: this.componentsToBeCreated
+          author: this.options.author,
+          module: module
         }
       );
     },
@@ -82,7 +105,7 @@ module.exports = yeoman.generators.Base.extend({
       this.fs.copyTpl(
         this.templatePath('_module.js'),
         this.destinationPath(destinationPath + '/' + this.moduleName + '.module.js'), {
-          author: this.author,
+          author: this.options.author,
           module: this.moduleName,
           date: (new Date()).toDateString()
         }
@@ -122,7 +145,7 @@ module.exports = yeoman.generators.Base.extend({
   callSubgenerators: function () {
     var options = {
       isSubCall: true,
-      author: this.author,
+      author: this.options.author,
       moduleName: this.moduleName
     };
     if(this.componentsToBeCreated.indexOf('controller') >= 0) {

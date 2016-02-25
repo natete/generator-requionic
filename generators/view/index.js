@@ -34,6 +34,7 @@ module.exports = yeoman.generators.Base.extend({
         name: 'viewName',
         message: 'View name: '
       }
+      prompts.push(prompt);
     }
 
     if (!this.options.moduleName) {
@@ -49,8 +50,10 @@ module.exports = yeoman.generators.Base.extend({
       var prompt = {
         type: 'input',
         name: 'author',
-        message: 'Author name: '
+        message: 'Author name: ',
+        store: true
       }
+      prompts.push(prompt);
     }
 
     if (prompts.length) {
@@ -132,13 +135,13 @@ module.exports = yeoman.generators.Base.extend({
               return newContent;
             }
           }
-        )
-
+        );
       }
     },
 
     createSyles: function() {
       this.log(chalk.yellow('### Creating styles ###'));
+      var self = this;
       var destinationPath = 'www/js/modules/' + _.toLower(this.options.moduleName) + '/' + _.toLower(this.viewName) + '.scss';
       this.fs.copyTpl(
         this.templatePath('_styles.scss'),
@@ -156,12 +159,33 @@ module.exports = yeoman.generators.Base.extend({
             var hook = '\/\/ Yeoman hook. Do not remove this comment.';
             var regEx = new RegExp(hook, 'g');
             var newContent = content.toString().replace(regEx,
-              '@import "' + '../www/js/modules/' + _.toLower(this.options.moduleName)  + '/' + viewName +
+              '@import "' + '../www/js/modules/' + _.toLower(self.options.moduleName)  + '/' + viewName +
               '";\n' + hook);
               return newContent;
             }
           }
         )
+      },
+
+      modifyMain: function() {
+        this.log(chalk.yellow('### Adding files to main ###'));
+        var self = this;
+        var destinationPath = 'www/js/modules/' + _.toLower(this.options.moduleName) + '/main.js';
+        this.fs.copy(
+          this.destinationPath(destinationPath),
+          this.destinationPath(destinationPath),
+          {
+            process: function(content) {
+              var hook = '\/\/ Yeoman hook. Define section. Do not remove this comment.';
+              var regEx = new RegExp(hook, 'g');
+              var substitutionString = "'./" + _.toLower(self.viewName) + ".controller.js',\n";
+              if(!self.requiresEditRoutes) {
+                substitutionString = substitutionString + "'./" + _.toLower(self.options.moduleName) + ".routes.js',\n";
+              }
+              return content.toString().replace(regEx, substitutionString + hook);
+            }
+          }
+        );
       }
     },
 

@@ -81,6 +81,24 @@ module.exports = yeoman.generators.Base.extend({
           date: (new Date()).toDateString()
         }
       )
+    },
+
+    modifyMain: function() {
+      this.log(chalk.yellow('### Adding files to main ###'));
+      var self = this;
+      var destinationPath = 'www/js/modules/' + _.toLower(this.options.moduleName) + '/main.js';
+      this.fs.copy(
+        this.destinationPath(destinationPath),
+        this.destinationPath(destinationPath),
+        {
+          process: function(content) {
+            var hook = '\/\/ Yeoman hook. Define section. Do not remove this comment.';
+            var regEx = new RegExp(hook, 'g');
+            var substitutionString = "'./" + _.toLower(self.serviceName) + ".service.js',\n";
+            return content.toString().replace(regEx, substitutionString + hook);
+          }
+        }
+      );
     }
   },
 

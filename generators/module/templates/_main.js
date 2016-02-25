@@ -6,9 +6,7 @@
 (function() {
   define([
     // Here files modules internal files referencies.
-    <%- components.map(function(component){
-          return '\'./' + module + '.' + component + '\'';
-        }).join(',\n')  %>
+    // Yeoman hook. Define section. Do not remove this comment.
     // ...
   ], function() {});
 })();
