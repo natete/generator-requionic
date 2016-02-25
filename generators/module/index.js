@@ -70,6 +70,14 @@ module.exports = yeoman.generators.Base.extend({
           {
             name: 'Service',
             value: 'service'
+          },
+          {
+            name: 'Constant',
+            value: 'constant'
+          },
+          {
+            name: 'Value',
+            value: 'value'
           }
         ]
       }
@@ -172,6 +180,18 @@ module.exports = yeoman.generators.Base.extend({
         arguments: [
           this.moduleName
         ],
+        options: options
+      });
+    }
+
+    if(this.componentsToBeCreated.indexOf('constant') >= 0) {
+      this.composeWith('reqionic:constant', {
+        options: options
+      });
+    }
+
+    if(this.componentsToBeCreated.indexOf('value') >= 0) {
+      this.composeWith('reqionic:value', {
         options: options
       });
     }
