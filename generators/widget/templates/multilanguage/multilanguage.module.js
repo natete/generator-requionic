@@ -2,7 +2,7 @@
  * Multilanguage module
  * @param {type} angular
  * @returns {angular.module}
- * @author reqionic
+ * @author requionic
  */
 
 (function () {

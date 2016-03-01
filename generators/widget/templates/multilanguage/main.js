@@ -1,7 +1,7 @@
 /**
  * Main module for multilanguage widget.
  * @param {type} angular
- * @author reqionic
+ * @author requionic
  */
 (function () {
   define([

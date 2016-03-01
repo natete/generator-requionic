@@ -23,7 +23,7 @@ module.exports = yeoman.generators.Base.extend({
     // Have Yeoman greet the user.
     self.log(yosay(
       'Welcome to the super-excellent ' + chalk.red(
-        'generator-reqionic')
+        'generator-requionic')
       ));
     self.log(utils.greeting);
 
@@ -233,7 +233,7 @@ module.exports = yeoman.generators.Base.extend({
     this.installDependencies();
   },
   callSubgenerators: function () {
-    // this.composeWith('reqionic:module', {
+    // this.composeWith('requionic:module', {
     //   arguments: [
     //     this.appName
     //   ],

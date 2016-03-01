@@ -1,14 +1,14 @@
-# Reqionic Yeoman Generator 
+# Requionic Yeoman Generator
 [![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Dependency Status][daviddm-image]][daviddm-url]
 > Bootstraps an ionic app using requiere and John Papa&#39;s styleguide
 
 
-![![](https://github.com/natete/generator-reqionic)](https://github.com/natete/generator-reqionic/blob/master/resources/logo.png)
+![![](https://github.com/natete/generator-requionic)](https://github.com/natete/generator-requionic/blob/master/resources/logo.png)
 
 
-Reqionic is a Yeoman scafolding generator to buils hibrid applications based in Ionic framework and following Jhon's Papa style guide for AngularJS project. Saving time and cleaning style is the main advantage of require. With just a few commands will be ready as a developer starting a new application effortlessly with Ionic.
+Requionic is a Yeoman scaffolding generator to build hybrid applications based in Ionic framework and following Jhon's Papa style guide for AngularJS project. Saving time and cleaning style is the main advantage of require. With just a few commands will be ready as a developer starting a new application effortlessly with Ionic.
 
-## More information [WIKI](https://github.com/natete/generator-reqionic/wiki) page.
+## More information [WIKI](https://github.com/natete/generator-requionic/wiki) page.
 
 ## Getting To Know Yeoman
 
@@ -27,15 +27,15 @@ Yeoman has a heart of gold. He&#39;s a person with feelings and opinions, but he
 
 
 ***
-[![](https://pbs.twimg.com/profile_images/666407537084796928/YBGgi9BO_normal.png)](https://twitter.com/reqionic)
+[![](https://pbs.twimg.com/profile_images/666407537084796928/YBGgi9BO_normal.png)](https://twitter.com/requionic)
 
 ***
 ## License
 MIT © [natete](https://github.com/natete/)
 
-[npm-image]: https://badge.fury.io/js/generator-reqionic.svg
-[npm-url]: https://npmjs.org/package/generator-reqionic
-[travis-image]: https://travis-ci.org/natete/generator-reqionic.svg?branch=master
-[travis-url]: https://travis-ci.org/natete/generator-reqionic
-[daviddm-image]: https://david-dm.org/natete/generator-reqionic.svg?theme=shields.io
-[daviddm-url]: https://david-dm.org/natete/generator-reqionic
+[npm-image]: https://badge.fury.io/js/generator-requionic.svg
+[npm-url]: https://npmjs.org/package/generator-requionic
+[travis-image]: https://travis-ci.org/natete/generator-requionic.svg?branch=master
+[travis-url]: https://travis-ci.org/natete/generator-requionic
+[daviddm-image]: https://david-dm.org/natete/generator-requionic.svg?theme=shields.io
+[daviddm-url]: https://david-dm.org/natete/generator-requionic

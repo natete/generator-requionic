@@ -38,7 +38,7 @@ module.exports = yeoman.generators.Base.extend({
     // Have Yeoman greet the user.
     if (!this.options.isSubCall) {
       self.log(yosay(
-        'Welcome to the super-excellent ' + chalk.red('generator-reqionic') + ' generator!\n by'
+        'Welcome to the super-excellent ' + chalk.red('generator-requionic') + ' generator!\n by'
         ));
       self.log(utils.greeting);
     }
@@ -78,7 +78,7 @@ module.exports = yeoman.generators.Base.extend({
     processPlugin: function () {
       if (this.option !== 'nothing' && this.plugins.length > 0) {
         for (var component in this.plugins) {
-          this.log(chalk.yellow('### ' + chalk.red('generator-reqionic') + ' will ' + this.option + ' the plugin '
+          this.log(chalk.yellow('### ' + chalk.red('generator-requionic') + ' will ' + this.option + ' the plugin '
             + this.availablePlugins[this.plugins[component]].name
             + ' ###'));
           if (this.availablePlugins[this.plugins[component]].source) {
