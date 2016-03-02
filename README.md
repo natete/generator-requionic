@@ -3,7 +3,7 @@
 > Bootstraps an ionic app using requiere and John Papa&#39;s styleguide
 
 
-![![](https://github.com/natete/generator-requionic)](https://github.com/natete/generator-requionic/blob/master/resources/logo.png)
+![![](https://github.com/natete/generator-requionic)](https://raw.githubusercontent.com/natete/generator-requionic/master/resources/logo.png)
 
 
 Requionic is a Yeoman scaffolding generator to build hybrid applications based in Ionic framework and following Jhon's Papa style guide for AngularJS project. Saving time and cleaning style is the main advantage of Requionic. With just a few commands will be ready as a developer starting a new application effortlessly with Ionic.
