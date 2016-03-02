@@ -1,5 +1,5 @@
 {
-  "name": "generator-reqionic",
+  "name": "generator-requionic",
   "version": "0.0.2",
   "description": "Bootstraps an ionic app using requiere and John Papa's styleguide",
   "homepage": "",
@@ -50,7 +50,7 @@
       "mocha": true
     }
   },
-  "repository": "natete/generator-reqionic",
+  "repository": "natete/generator-requionic",
   "scripts": {
     "prepublish": "gulp prepublish",
     "test": "gulp"

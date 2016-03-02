@@ -1,7 +1,7 @@
 /**
  * Language controller.
  * @param {type} angular
- * @author reqionic
+ * @author requionic
  */
 (function () {
   define(['./multilanguage.module'], function (module) {

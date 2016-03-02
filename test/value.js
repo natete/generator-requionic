@@ -3,7 +3,7 @@ var path = require('path');
 var assert = require('yeoman-assert');
 var helpers = require('yeoman-generator').test;
 
-describe('generator-reqionic:value', function () {
+describe('generator-requionic:value', function () {
   before(function (done) {
     helpers.run(path.join(__dirname, '../generators/value'))
       .withOptions({someOption: true})

@@ -20,7 +20,7 @@ module.exports = yeoman.generators.Base.extend({
     // Have Yeoman greet the user.
     if (!this.options.isSubCall) {
       this.log(yosay(
-        'Welcome to the solid ' + chalk.red('generator-reqionic:view') +
+        'Welcome to the solid ' + chalk.red('generator-requionic:view') +
         ' generator!'
       ));
     }

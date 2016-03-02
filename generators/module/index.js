@@ -23,7 +23,7 @@ module.exports = yeoman.generators.Base.extend({
     // Have Yeoman greet the user.
     if(!this.options.isSubCall) {
       self.log(yosay(
-        'Welcome to the super-excellent ' + chalk.red('generator-reqionic') + ' generator!\n by'
+        'Welcome to the super-excellent ' + chalk.red('generator-requionic') + ' generator!\n by'
       ));
       self.log(utils.greeting);
     }
@@ -157,7 +157,7 @@ module.exports = yeoman.generators.Base.extend({
       moduleName: this.moduleName
     };
     if(this.componentsToBeCreated.indexOf('controller') >= 0) {
-      this.composeWith('reqionic:view', {
+      this.composeWith('requionic:view', {
         arguments: [
           this.moduleName,
           this.moduleName
@@ -167,7 +167,7 @@ module.exports = yeoman.generators.Base.extend({
     }
 
     if(this.componentsToBeCreated.indexOf('service') >= 0) {
-      this.composeWith('reqionic:service', {
+      this.composeWith('requionic:service', {
         arguments: [
           this.moduleName
         ],
@@ -176,7 +176,7 @@ module.exports = yeoman.generators.Base.extend({
     }
 
     if(this.componentsToBeCreated.indexOf('factory') >= 0) {
-      this.composeWith('reqionic:service', {
+      this.composeWith('requionic:service', {
         arguments: [
           this.moduleName
         ],
@@ -185,13 +185,13 @@ module.exports = yeoman.generators.Base.extend({
     }
 
     if(this.componentsToBeCreated.indexOf('constant') >= 0) {
-      this.composeWith('reqionic:constant', {
+      this.composeWith('requionic:constant', {
         options: options
       });
     }
 
     if(this.componentsToBeCreated.indexOf('value') >= 0) {
-      this.composeWith('reqionic:value', {
+      this.composeWith('requionic:value', {
         options: options
       });
     }

@@ -21,7 +21,7 @@ module.exports = yeoman.generators.Base.extend({
     if (!this.options.isSubCall) {
       this.log(yosay(
         'Welcome to the solid ' + chalk.red(
-          'generator-reqionic:factory') + ' generator!'
+          'generator-requionic:factory') + ' generator!'
       ));
     }
 
