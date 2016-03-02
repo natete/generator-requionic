@@ -6,7 +6,7 @@
 ![![](https://github.com/natete/generator-requionic)](https://github.com/natete/generator-requionic/blob/master/resources/logo.png)
 
 
-Requionic is a Yeoman scaffolding generator to build hybrid applications based in Ionic framework and following Jhon's Papa style guide for AngularJS project. Saving time and cleaning style is the main advantage of require. With just a few commands will be ready as a developer starting a new application effortlessly with Ionic.
+Requionic is a Yeoman scaffolding generator to build hybrid applications based in Ionic framework and following Jhon's Papa style guide for AngularJS project. Saving time and cleaning style is the main advantage of Requionic. With just a few commands will be ready as a developer starting a new application effortlessly with Ionic.
 
 ## More information [WIKI](https://github.com/natete/generator-requionic/wiki) page.
 
