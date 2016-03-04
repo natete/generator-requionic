@@ -8,6 +8,11 @@
 
 Requionic is a Yeoman scaffolding generator to build hybrid applications based in Ionic framework and following Jhon's Papa style guide for AngularJS project. Saving time and cleaning style is the main advantage of Requionic. With just a few commands will be ready as a developer starting a new application effortlessly with Ionic.
 
+```
+  npm install -g generator-requionic 
+```
+
+
 ## More information [WIKI](https://github.com/natete/generator-requionic/wiki) page.
 
 ## Getting To Know Yeoman
