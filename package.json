@@ -12,7 +12,13 @@
     "generators/app",
     "generators/module",
     "generators/view",
-    "generators/service"
+    "generators/service",
+    "generators/constant",
+    "generators/factory",
+    "generators/plugin",
+    "generators/utils",
+    "generators/value",
+    "generators/widget"
   ],
   "main": "generators/index.js",
   "keywords": [
