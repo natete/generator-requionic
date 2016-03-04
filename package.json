@@ -1,6 +1,6 @@
 {
   "name": "generator-requionic",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Bootstraps an ionic app using requiere and John Papa's styleguide",
   "homepage": "",
   "author": {
