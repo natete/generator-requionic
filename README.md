@@ -1,6 +1,6 @@
 # Requionic Yeoman Generator
 [![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Dependency Status][daviddm-image]][daviddm-url]
-> Bootstraps an ionic app using requiere and John Papa&#39;s styleguide
+> Bootstraps an Ionic app using RequireJS and John Papa&#39;s styleguide
 
 
 ![![](https://github.com/natete/generator-requionic)](https://raw.githubusercontent.com/natete/generator-requionic/master/resources/logo.png)
