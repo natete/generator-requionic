@@ -5,7 +5,7 @@ var yosay = require('yosay');
 var _ = require('lodash');
 
 module.exports = yeoman.generators.Base.extend({
-  constructor: function() {
+  constructor: function () {
     yeoman.generators.Base.apply(this, arguments);
 
     this.argument('serviceName', {
@@ -13,8 +13,7 @@ module.exports = yeoman.generators.Base.extend({
       required: false
     });
   },
-
-  prompting: function() {
+  prompting: function () {
     var done = this.async();
 
     // Have Yeoman greet the user.
@@ -22,7 +21,7 @@ module.exports = yeoman.generators.Base.extend({
       this.log(yosay(
         'Welcome to the solid ' + chalk.red(
           'generator-requionic:service') + ' generator!'
-      ));
+        ));
     }
 
     var prompts = [];
@@ -41,7 +40,7 @@ module.exports = yeoman.generators.Base.extend({
         type: 'input',
         name: 'moduleName',
         message: 'Module name: '
-      }
+      };
       prompts.push(prompt);
     }
 
@@ -54,9 +53,13 @@ module.exports = yeoman.generators.Base.extend({
     }
 
     if (prompts.length) {
-      this.prompt(prompts, function(answers) {
+      this.prompt(prompts, function (answers) {
         this.serviceName = this.serviceName || answers.serviceName;
+        //Normalize service input name.
+        this.serviceName = _.kebabCase(this.serviceName);
         this.options.moduleName = this.options.moduleName || answers.moduleName;
+        //Normalize module input name.
+        this.options.moduleName = _.kebabCase(this.options.moduleName);
         this.options.author = this.options.author || answers.author;
 
         done();
@@ -65,9 +68,8 @@ module.exports = yeoman.generators.Base.extend({
       done();
     }
   },
-
   writing: {
-    createService: function() {
+    createService: function () {
       this.log(chalk.yellow('### Creating service ###'));
       var destinationPath = 'www/js/modules/' + this.options.moduleName +
         '/' + _.toLower(this.serviceName) + '.service.js';
@@ -75,15 +77,14 @@ module.exports = yeoman.generators.Base.extend({
       this.fs.copyTpl(
         this.templatePath('_service.js'),
         this.destinationPath(destinationPath), {
-          author: this.options.author,
-          moduleName: this.options.moduleName,
-          serviceName: serviceName,
-          date: (new Date()).toDateString()
-        }
+        author: this.options.author,
+        moduleName: this.options.moduleName,
+        serviceName: serviceName,
+        date: (new Date()).toDateString()
+      }
       )
     },
-
-    modifyMain: function() {
+    modifyMain: function () {
       this.log(chalk.yellow('### Adding files to main ###'));
       var self = this;
       var destinationPath = 'www/js/modules/' + _.toLower(this.options.moduleName) + '/main.js';
@@ -91,7 +92,7 @@ module.exports = yeoman.generators.Base.extend({
         this.destinationPath(destinationPath),
         this.destinationPath(destinationPath),
         {
-          process: function(content) {
+          process: function (content) {
             var hook = '\/\/ Yeoman hook. Define section. Do not remove this comment.';
             var regEx = new RegExp(hook, 'g');
             var substitutionString = "'./" + _.toLower(self.serviceName) + ".service.js',\n";
@@ -101,8 +102,7 @@ module.exports = yeoman.generators.Base.extend({
       );
     }
   },
-
-  install: function() {
+  install: function () {
     // this.installDependencies();
   }
 });

@@ -5,7 +5,6 @@ var yosay = require('yosay');
 var _ = require('lodash');
 
 module.exports = yeoman.generators.Base.extend({
-
   prompting: function () {
     var done = this.async();
 
@@ -14,24 +13,25 @@ module.exports = yeoman.generators.Base.extend({
       this.log(yosay(
         'Welcome to the solid ' + chalk.red('generator-requionic:view') +
         ' generator!'
-      ));
+        ));
     }
 
     var prompts = [];
 
-    if(!this.options.moduleName) {
+    if (!this.options.moduleName) {
       var prompt = {
         type: 'input',
         name: 'moduleName',
         message: 'Module name: '
-      }
+      };
       prompts.push(prompt);
     }
 
-    if(prompts.length) {
+    if (prompts.length) {
       this.prompt(prompts, function (props) {
         this.options.moduleName = this.options.moduleName || answers.moduleName;
-
+        //Normalize constant intput name.
+        this.options.moduleName = _.kebabCase(this.options.moduleName);
         done();
       }.bind(this));
     } else {
@@ -39,22 +39,21 @@ module.exports = yeoman.generators.Base.extend({
     }
 
   },
-
   writing: {
-    createConstant: function() {
+    createConstant: function () {
       this.log(chalk.yellow('### Creating constants ###'));
-      var destinationPath = 'www/js/modules/' + this.options.moduleName + '/' + _.toLower(this.options.moduleName) + '.constant.js';
+      var destinationPath = 'www/js/modules/' + this.options.moduleName + '/' + _.toLower(this.options.moduleName)
+        + '.constant.js';
       this.fs.copyTpl(
         this.templatePath('_constant.js'),
         this.destinationPath(destinationPath), {
-          author: this.options.author,
-          moduleName: _.toLower(this.options.moduleName),
-          date: (new Date()).toDateString()
-        }
+        author: this.options.author,
+        moduleName: _.toLower(this.options.moduleName),
+        date: (new Date()).toDateString()
+      }
       );
     },
-
-    modifyMain: function() {
+    modifyMain: function () {
       this.log(chalk.yellow('### Adding files to main ###'));
       var self = this;
       var destinationPath = 'www/js/modules/' + _.toLower(this.options.moduleName) + '/main.js';
@@ -62,7 +61,7 @@ module.exports = yeoman.generators.Base.extend({
         this.destinationPath(destinationPath),
         this.destinationPath(destinationPath),
         {
-          process: function(content) {
+          process: function (content) {
             var hook = '\/\/ Yeoman hook. Define section. Do not remove this comment.';
             var regEx = new RegExp(hook, 'g');
             var substitutionString = "'./" + _.toLower(self.options.moduleName) + ".constant.js',\n";
@@ -72,7 +71,6 @@ module.exports = yeoman.generators.Base.extend({
       );
     }
   },
-
   install: function () {
     this.installDependencies();
   }

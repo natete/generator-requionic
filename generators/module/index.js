@@ -15,21 +15,20 @@ module.exports = yeoman.generators.Base.extend({
     });
 
   },
-
   prompting: function () {
     var done = this.async();
     var self = this;
 
     // Have Yeoman greet the user.
-    if(!this.options.isSubCall) {
+    if (!this.options.isSubCall) {
       self.log(yosay(
         'Welcome to the super-excellent ' + chalk.red('generator-requionic') + ' generator!\n by'
-      ));
+        ));
       self.log(utils.greeting);
     }
     var prompts = [];
 
-    if(!this.moduleName) {
+    if (!this.moduleName) {
       var prompt = {
         type: 'input',
         name: 'moduleName',
@@ -85,13 +84,14 @@ module.exports = yeoman.generators.Base.extend({
 
     self.prompt(prompts, function (answers) {
       this.moduleName = this.moduleName || answers.moduleName;
+      //Normalize module input name.
+      this.moduleName = _.kebabCase(this.moduleName);
       this.options.author = this.options.author || answers.author;
       this.componentsToBeCreated = answers.componentsToBeCreated;
 
       done();
     }.bind(this));
   },
-
   writing: {
     createMain: function () {
       var module = this.moduleName;
@@ -101,62 +101,59 @@ module.exports = yeoman.generators.Base.extend({
       this.fs.copyTpl(
         this.templatePath('_main.js'),
         this.destinationPath(destinationPath + '/main.js'), {
-          author: this.options.author,
-          module: module
-        }
+        author: this.options.author,
+        module: module
+      }
       );
     },
-
-    createModule: function() {
+    createModule: function () {
       this.log(chalk.yellow('### Creating module ' + this.moduleName + ' ###'));
       var destinationPath = 'www/js/modules/' + this.moduleName;
       this.fs.copyTpl(
         this.templatePath('_module.js'),
         this.destinationPath(destinationPath + '/' + this.moduleName + '.module.js'), {
-          author: this.options.author,
-          module: this.moduleName,
-          date: (new Date()).toDateString()
-        }
+        author: this.options.author,
+        module: this.moduleName,
+        date: (new Date()).toDateString()
+      }
       );
     }
   },
-
-  modifyApp: function() {
+  modifyApp: function () {
     this.log(chalk.yellow('### Modifying app.js ###'));
     var destinationPath = 'www/js/modules/' + this.moduleName;
     var moduleName = this.moduleName;
     this.fs.copy(
       'www/js/app.js',
       this.destinationPath('www/js/app.js'), {
-        process: function(content) {
-          var defineHook = '\/\/ Yeoman hook. Define section. Do not remove this comment.';
-          var dependenciesHook = '\/\/ Yeoman hook. Dependencies section. Do not remove this comment.';
-          var modifiers = [];
-          modifiers.push({
-            regEx: new RegExp(defineHook, 'g'),
-            replacer: ',\n\t\t\'./modules/' + moduleName + '/main\'' + defineHook
-          });
-          modifiers.push({
-            regEx: new RegExp(dependenciesHook, 'g'),
-            replacer: ',\n\t\t\t\t\'app.' + moduleName + '\'' + dependenciesHook
-          });
-          var newContent = content.toString();
-          modifiers.forEach(function(modifier) {
-            newContent = newContent.replace(modifier.regEx, modifier.replacer);
-          });
-          return newContent;
-        }
+      process: function (content) {
+        var defineHook = '\/\/ Yeoman hook. Define section. Do not remove this comment.';
+        var dependenciesHook = '\/\/ Yeoman hook. Dependencies section. Do not remove this comment.';
+        var modifiers = [];
+        modifiers.push({
+          regEx: new RegExp(defineHook, 'g'),
+          replacer: ',\n\t\t\'./modules/' + moduleName + '/main\'' + defineHook
+        });
+        modifiers.push({
+          regEx: new RegExp(dependenciesHook, 'g'),
+          replacer: ',\n\t\t\t\t\'app.' + moduleName + '\'' + dependenciesHook
+        });
+        var newContent = content.toString();
+        modifiers.forEach(function (modifier) {
+          newContent = newContent.replace(modifier.regEx, modifier.replacer);
+        });
+        return newContent;
       }
+    }
     );
   },
-
   callSubgenerators: function () {
     var options = {
       isSubCall: true,
       author: this.options.author,
       moduleName: this.moduleName
     };
-    if(this.componentsToBeCreated.indexOf('controller') >= 0) {
+    if (this.componentsToBeCreated.indexOf('controller') >= 0) {
       this.composeWith('requionic:view', {
         arguments: [
           this.moduleName,
@@ -166,7 +163,7 @@ module.exports = yeoman.generators.Base.extend({
       });
     }
 
-    if(this.componentsToBeCreated.indexOf('service') >= 0) {
+    if (this.componentsToBeCreated.indexOf('service') >= 0) {
       this.composeWith('requionic:service', {
         arguments: [
           this.moduleName
@@ -175,7 +172,7 @@ module.exports = yeoman.generators.Base.extend({
       });
     }
 
-    if(this.componentsToBeCreated.indexOf('factory') >= 0) {
+    if (this.componentsToBeCreated.indexOf('factory') >= 0) {
       this.composeWith('requionic:service', {
         arguments: [
           this.moduleName
@@ -184,13 +181,13 @@ module.exports = yeoman.generators.Base.extend({
       });
     }
 
-    if(this.componentsToBeCreated.indexOf('constant') >= 0) {
+    if (this.componentsToBeCreated.indexOf('constant') >= 0) {
       this.composeWith('requionic:constant', {
         options: options
       });
     }
 
-    if(this.componentsToBeCreated.indexOf('value') >= 0) {
+    if (this.componentsToBeCreated.indexOf('value') >= 0) {
       this.composeWith('requionic:value', {
         options: options
       });

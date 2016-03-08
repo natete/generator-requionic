@@ -38,6 +38,9 @@ module.exports = yeoman.generators.Base.extend({
       prompts.push(prompt);
     }
 
+    //Normalize application input name.
+    this.appName = _.kebabCase(this.appName);
+
     prompts.push({
       type: 'input',
       name: 'author',

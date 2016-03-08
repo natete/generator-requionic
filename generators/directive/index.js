@@ -5,7 +5,7 @@ var yosay = require('yosay');
 var _ = require('lodash');
 
 module.exports = yeoman.generators.Base.extend({
-  constructor: function() {
+  constructor: function () {
     yeoman.generators.Base.apply(this, arguments);
 
     this.argument('directiveName', {
@@ -13,7 +13,6 @@ module.exports = yeoman.generators.Base.extend({
       required: false
     });
   },
-
   prompting: function () {
     var done = this.async();
 
@@ -22,21 +21,21 @@ module.exports = yeoman.generators.Base.extend({
       this.log(yosay(
         'Welcome to the solid ' + chalk.red('generator-requionic:view') +
         ' generator!'
-      ));
+        ));
     }
 
     var prompts = [];
 
-    if(!this.directiveName) {
+    if (!this.directiveName) {
       var prompt = {
         type: 'input',
         name: 'directiveName',
         message: 'DirectiveName'
-      }
+      };
       prompts.push(prompt);
     }
 
-    if(!this.options.moduleName) {
+    if (!this.options.moduleName) {
       var prompt = {
         type: 'input',
         name: 'moduleName',
@@ -55,10 +54,14 @@ module.exports = yeoman.generators.Base.extend({
       prompts.push(prompt);
     }
 
-    if(prompts.length) {
+    if (prompts.length) {
       this.prompt(prompts, function (props) {
         this.DirectiveName = this.directiveName || answers.directiveName;
+        //Normalize directive intput name.
+        this.DirectiveName = _.kebabCase(this.directiveName);
         this.options.moduleName = this.options.moduleName || answers.moduleName;
+        //Normalize module intput name.
+        this.options.moduleName = _.kebabCase(this.options.moduleName);
         this.options.author = this.options.author || answers.author;
 
         done();
@@ -68,22 +71,21 @@ module.exports = yeoman.generators.Base.extend({
     }
 
   },
-
   writing: {
-    createDirective: function() {
+    createDirective: function () {
       this.log(chalk.yellow('### Creating directive ###'));
-      var destinationPath = 'www/js/modules/' + this.options.moduleName + '/directive/' + _.toLower(this.options.moduleName) + '.directive.js';
+      var destinationPath = 'www/js/modules/' + this.options.moduleName + '/directive/' + _.toLower(
+        this.options.moduleName) + '.directive.js';
       this.fs.copyTpl(
         this.templatePath('_directive.js'),
         this.destinationPath(destinationPath), {
-          author: this.options.author,
-          moduleName: _.toLower(this.options.moduleName),
-          date: (new Date()).toDateString()
-        }
+        author: this.options.author,
+        moduleName: _.toLower(this.options.moduleName),
+        date: (new Date()).toDateString()
+      }
       );
     },
-
-    modifyMain: function() {
+    modifyMain: function () {
       this.log(chalk.yellow('### Adding files to main ###'));
       var self = this;
       var destinationPath = 'www/js/modules/' + _.toLower(this.options.moduleName) + '/main.js';
@@ -91,7 +93,7 @@ module.exports = yeoman.generators.Base.extend({
         this.destinationPath(destinationPath),
         this.destinationPath(destinationPath),
         {
-          process: function(content) {
+          process: function (content) {
             var hook = '\/\/ Yeoman hook. Define section. Do not remove this comment.';
             var regEx = new RegExp(hook, 'g');
             var substitutionString = "'./directives/" + _.toLower(self.options.moduleName) + ".directive.js',\n";
@@ -101,7 +103,6 @@ module.exports = yeoman.generators.Base.extend({
       );
     }
   },
-
   install: function () {
     this.installDependencies();
   }
