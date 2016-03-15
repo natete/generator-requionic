@@ -1,7 +1,7 @@
 {
   "name": "generator-requionic",
   "version": "0.0.3",
-  "description": "Bootstraps an ionic app using requiere and John Papa's styleguide",
+  "description": "Bootstraps an Ionic app using RequireJS and John Papa's styleguide",
   "homepage": "",
   "author": {
     "name": "natete",
@@ -27,7 +27,8 @@
     "angularjs",
     "ionic",
     "hybrid",
-    "mobile"
+    "mobile",
+    "angular"
   ],
   "dependencies": {
     "yeoman-generator": "^0.21.1",
