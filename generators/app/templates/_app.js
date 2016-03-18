@@ -12,13 +12,16 @@
   ],
     function (angular) {
       'use strict';
-      var app = angular.module('app', [
+
+      var moduleName = 'app';
+
+      angular.module(moduleName, [
         'ionic',
         'app.core',
         'app.widgets'// Yeoman hook. Dependencies section. Do not remove this comment.
-      ]);
+      ])
 
-      app.config(Config);
+      .config(Config);
 
       Config.$inject = ['$ionicConfigProvider'];
 
@@ -27,6 +30,7 @@
         $ionicConfigProvider.views.maxCache(10);
       }
 
-      return app;
+      return moduleName;
+      
     });
   })();

@@ -12,6 +12,10 @@
   ], function(ng) {
     'use strict';
 
-    return ng.module('app.<%= module %>', []);
+    var moduleName = 'app.<%= module %>';
+
+    ng.module(moduleName, []);
+
+    return moduleName;
   });
 })();

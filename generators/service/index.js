@@ -3,6 +3,7 @@ var yeoman = require('yeoman-generator');
 var chalk = require('chalk');
 var yosay = require('yosay');
 var _ = require('lodash');
+var interactionsHelper = require('../utils/interactionsHelper.js');
 
 module.exports = yeoman.generators.Base.extend({
   constructor: function () {
@@ -25,6 +26,10 @@ module.exports = yeoman.generators.Base.extend({
     }
 
     var prompts = [];
+
+    if (!this.options.moduleType) {
+      prompts.push(interactionsHelper.promptModuleType());
+    }
 
     if (!this.serviceName) {
       var prompt = {
@@ -54,12 +59,17 @@ module.exports = yeoman.generators.Base.extend({
 
     if (prompts.length) {
       this.prompt(prompts, function (answers) {
+
+        this.options.moduleType = this.options.moduleType || answers.moduleType;
+
         this.serviceName = this.serviceName || answers.serviceName;
         //Normalize service input name.
         this.serviceName = _.kebabCase(this.serviceName);
+
         this.options.moduleName = this.options.moduleName || answers.moduleName;
         //Normalize module input name.
         this.options.moduleName = _.kebabCase(this.options.moduleName);
+
         this.options.author = this.options.author || answers.author;
 
         done();
@@ -69,10 +79,14 @@ module.exports = yeoman.generators.Base.extend({
     }
   },
   writing: {
+
+    preprocessModule: function() {
+        this.modulePath = 'www/js/' + this.options.moduleType + '/' + this.options.moduleName;
+    },
+
     createService: function () {
       this.log(chalk.yellow('### Creating service ###'));
-      var destinationPath = 'www/js/modules/' + this.options.moduleName +
-        '/' + _.toLower(this.serviceName) + '.service.js';
+      var destinationPath = this.modulePath + '/' + _.toLower(this.serviceName) + '.service.js';
       var serviceName = _.capitalize(this.serviceName) + 'Service';
       this.fs.copyTpl(
         this.templatePath('_service.js'),
@@ -87,7 +101,7 @@ module.exports = yeoman.generators.Base.extend({
     modifyMain: function () {
       this.log(chalk.yellow('### Adding files to main ###'));
       var self = this;
-      var destinationPath = 'www/js/modules/' + _.toLower(this.options.moduleName) + '/main.js';
+      var destinationPath = this.modulePath + '/main.js';
       this.fs.copy(
         this.destinationPath(destinationPath),
         this.destinationPath(destinationPath),
@@ -95,7 +109,7 @@ module.exports = yeoman.generators.Base.extend({
           process: function (content) {
             var hook = '\/\/ Yeoman hook. Define section. Do not remove this comment.';
             var regEx = new RegExp(hook, 'g');
-            var substitutionString = "'./" + _.toLower(self.serviceName) + ".service.js',\n";
+            var substitutionString = "'./" + _.toLower(self.serviceName) + ".service',\n";
             return content.toString().replace(regEx, substitutionString + hook);
           }
         }

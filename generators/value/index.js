@@ -3,6 +3,7 @@ var yeoman = require('yeoman-generator');
 var chalk = require('chalk');
 var yosay = require('yosay');
 var _ = require('lodash');
+var interactionsHelper = require('../utils/interactionsHelper.js');
 
 module.exports = yeoman.generators.Base.extend({
 
@@ -19,6 +20,10 @@ module.exports = yeoman.generators.Base.extend({
 
     var prompts = [];
 
+    if (!this.options.moduleType) {
+      prompts.push(interactionsHelper.promptModuleType());
+    }
+
     if(!this.options.moduleName) {
       var prompt = {
         type: 'input',
@@ -30,7 +35,12 @@ module.exports = yeoman.generators.Base.extend({
 
     if(prompts.length) {
       this.prompt(prompts, function (props) {
+
+        this.options.moduleType = this.options.moduleType || answers.moduleType;
+
         this.options.moduleName = this.options.moduleName || answers.moduleName;
+        //Normalize module input name.
+        this.options.moduleName = _.kebabCase(this.options.moduleName);
 
         done();
       }.bind(this));
@@ -41,9 +51,14 @@ module.exports = yeoman.generators.Base.extend({
   },
 
   writing: {
+
+    preprocessModule: function() {
+        this.modulePath = 'www/js/' + this.options.moduleType + '/' + this.options.moduleName;
+    },
+
     createValue: function() {
       this.log(chalk.yellow('### Creating values ###'));
-      var destinationPath = 'www/js/modules/' + this.options.moduleName + '/' + _.toLower(this.options.moduleName) + '.value.js';
+      var destinationPath = this.modulePath + '/' + _.toLower(this.options.moduleName) + '.value.js';
       this.fs.copyTpl(
         this.templatePath('_value.js'),
         this.destinationPath(destinationPath), {
@@ -57,7 +72,7 @@ module.exports = yeoman.generators.Base.extend({
     modifyMain: function() {
       this.log(chalk.yellow('### Adding files to main ###'));
       var self = this;
-      var destinationPath = 'www/js/modules/' + _.toLower(this.options.moduleName) + '/main.js';
+      var destinationPath = this.modulePath + '/main.js';
       this.fs.copy(
         this.destinationPath(destinationPath),
         this.destinationPath(destinationPath),
@@ -65,7 +80,7 @@ module.exports = yeoman.generators.Base.extend({
           process: function(content) {
             var hook = '\/\/ Yeoman hook. Define section. Do not remove this comment.';
             var regEx = new RegExp(hook, 'g');
-            var substitutionString = "'./" + _.toLower(self.options.moduleName) + ".value.js',\n";
+            var substitutionString = "'./" + _.toLower(self.options.moduleName) + ".value',\n";
             return content.toString().replace(regEx, substitutionString + hook);
           }
         }

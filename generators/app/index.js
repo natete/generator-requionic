@@ -122,6 +122,7 @@ module.exports = yeoman.generators.Base.extend({
         this.templatePath('_config.xml'),
         this.destinationPath(this.appName + '/config.xml'), {
         appName: this.appName,
+        appId: _.snakeCase(this.appName) + Math.floor(Math.random()*900000) + 100000;
         author: this.author,
         email: this.email,
         website: this.website,

@@ -5,10 +5,11 @@
  */
 
 (function() {
-  define(['./<%= moduleName %>.module'], function(module) {
+  define(['./<%= moduleName %>.module'], function(moduleName) {
     'use strict';
 
-    module.value(
+    angular.module(moduleName)
+    .value(
       // Add your values here
     );
 

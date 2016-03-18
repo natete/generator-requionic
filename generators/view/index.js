@@ -1,9 +1,12 @@
 'use strict';
+
 var yeoman = require('yeoman-generator');
 var chalk = require('chalk');
 var yosay = require('yosay');
 var _ = require('lodash');
 var ejs = require('ejs');
+var utils = require('../utils');
+var interactionsHelper = require('../utils/interactionsHelper.js');
 
 module.exports = yeoman.generators.Base.extend({
   constructor: function () {
@@ -45,6 +48,10 @@ module.exports = yeoman.generators.Base.extend({
       prompts.push(prompt);
     }
 
+    if (!this.options.moduleType) {
+      prompts.push(interactionsHelper.promptModuleType());
+    }
+
     if (!this.options.author) {
       var prompt = {
         type: 'input',
@@ -63,6 +70,7 @@ module.exports = yeoman.generators.Base.extend({
         this.options.moduleName = this.options.moduleName || answers.moduleName;
         //Normalize module input name.
         this.options.moduleName = _.kebabCase(this.options.moduleName);
+        this.options.moduleType = _.kebabCase(this.options.moduleType);
         this.options.author = this.options.author || answers.author;
 
         done();
@@ -72,18 +80,22 @@ module.exports = yeoman.generators.Base.extend({
     }
   },
   writing: {
+
+    preprocessModule: function() {
+        this.modulePath = 'www/js/' + this.options.moduleType + '/' + this.options.moduleName;
+    },
+
     createView: function () {
       this.log(chalk.yellow('### Creating view ###'));
+      var self = this;
       this.fs.copy(
         this.templatePath('_view.html'),
-        this.destinationPath('www/js/modules/' + _.toLower(this.options.moduleName) +
-          '/' + _.toLower(this.viewName) + '.html')
-        );
+        this.destinationPath(this.modulePath + '/' + _.toLower(this.viewName) + '.html')
+      );
     },
     createController: function () {
       this.log(chalk.yellow('### Creating controller ###'));
-      var destinationPath = 'www/js/modules/' + this.options.moduleName + '/' + _.toLower(this.viewName)
-        + '.controller.js';
+      var destinationPath = this.modulePath + '/' + _.toLower(this.viewName) + '.controller.js';
       var controllerName = _.capitalize(this.viewName) + 'Controller';
       this.fs.copyTpl(
         this.templatePath('_controller.js'),
@@ -96,11 +108,10 @@ module.exports = yeoman.generators.Base.extend({
       );
     },
     createRoutes: function () {
-      if (!this.fs.exists('www/js/modules/' + _.toLower(this.options.moduleName) + '/' + _.toLower(
+      if (!this.fs.exists(this.modulePath + '/' + _.toLower(
         this.options.moduleName) + '.routes.js')) {
         this.log(chalk.yellow('### Creating routes ###'));
-        var destinationPath = 'www/js/modules/' + _.toLower(this.options.moduleName) + '/' + _.toLower(
-          this.options.moduleName) + '.routes.js';
+        var destinationPath = this.modulePath + '/' + _.toLower(this.options.moduleName) + '.routes.js';
         var controllerName = _.capitalize(this.viewName) + 'Controller';
         this.fs.copyTpl(
           this.templatePath('_routes.js'),
@@ -121,8 +132,7 @@ module.exports = yeoman.generators.Base.extend({
         this.log(chalk.yellow('### Modifying routes ###'));
         var stateTemplate = this.fs.read(this.templatePath('_state.js'));
         var controllerName = _.capitalize(this.viewName) + 'Controller';
-        var destinationPath = 'www/js/modules/' + _.toLower(this.options.moduleName) + '/' + _.toLower(
-          this.options.moduleName) + '.routes.js';
+        var destinationPath = this.modulePath + '/' + _.toLower(this.options.moduleName) + '.routes.js';
         var processedState = ejs.render(stateTemplate, {
           controllerName: controllerName,
           viewName: _.toLower(this.viewName),
@@ -144,8 +154,7 @@ module.exports = yeoman.generators.Base.extend({
     createSyles: function () {
       this.log(chalk.yellow('### Creating styles ###'));
       var self = this;
-      var destinationPath = 'www/js/modules/' + _.toLower(this.options.moduleName) + '/' + _.toLower(this.viewName)
-        + '.scss';
+      var destinationPath = this.modulePath + '/' + _.toLower(this.viewName) + '.scss';
       this.fs.copyTpl(
         this.templatePath('_styles.scss'),
         this.destinationPath(destinationPath), {
@@ -162,8 +171,7 @@ module.exports = yeoman.generators.Base.extend({
           var hook = '\/\/ Yeoman hook. Do not remove this comment.';
           var regEx = new RegExp(hook, 'g');
           var newContent = content.toString().replace(regEx,
-            '@import "' + '../www/js/modules/' + _.toLower(self.options.moduleName) + '/' + viewName +
-            '";\n' + hook);
+            '@import "' + '../' + this.modulePath + '/' + viewName + '";\n' + hook);
           return newContent;
         }
       }
@@ -172,7 +180,7 @@ module.exports = yeoman.generators.Base.extend({
     modifyMain: function () {
       this.log(chalk.yellow('### Adding files to main ###'));
       var self = this;
-      var destinationPath = 'www/js/modules/' + _.toLower(this.options.moduleName) + '/main.js';
+      var destinationPath = this.modulePath + '/main.js';
       this.fs.copy(
         this.destinationPath(destinationPath),
         this.destinationPath(destinationPath),
@@ -180,9 +188,9 @@ module.exports = yeoman.generators.Base.extend({
           process: function (content) {
             var hook = '\/\/ Yeoman hook. Define section. Do not remove this comment.';
             var regEx = new RegExp(hook, 'g');
-            var substitutionString = "'./" + _.toLower(self.viewName) + ".controller.js',\n";
+            var substitutionString = "'./" + _.toLower(self.viewName) + ".controller',\n";
             if (!self.requiresEditRoutes) {
-              substitutionString = substitutionString + "'./" + _.toLower(self.options.moduleName) + ".routes.js',\n";
+              substitutionString = substitutionString + "'./" + _.toLower(self.options.moduleName) + ".routes',\n";
             }
             return content.toString().replace(regEx, substitutionString + hook);
           }

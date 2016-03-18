@@ -7,9 +7,11 @@
 
 (function() {
   define(['./<%= moduleName %>.module', 'text!./<%= viewName %>.html'],
-    function(module, template) {
+    function(moduleName, template) {
       'use strict';
-      module.config(config);
+
+      angular.module(moduleName)
+        .config(config);
 
       config.$inject = ['$stateProvider', '$urlRouterProvider'];
 

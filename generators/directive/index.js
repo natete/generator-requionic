@@ -3,6 +3,7 @@ var yeoman = require('yeoman-generator');
 var chalk = require('chalk');
 var yosay = require('yosay');
 var _ = require('lodash');
+var interactionsHelper = require('../utils/interactionsHelper.js');
 
 module.exports = yeoman.generators.Base.extend({
   constructor: function () {
@@ -25,6 +26,10 @@ module.exports = yeoman.generators.Base.extend({
     }
 
     var prompts = [];
+
+    if (!this.options.moduleType) {
+      prompts.push(interactionsHelper.promptModuleType());
+    }
 
     if (!this.directiveName) {
       var prompt = {
@@ -56,12 +61,16 @@ module.exports = yeoman.generators.Base.extend({
 
     if (prompts.length) {
       this.prompt(prompts, function (props) {
+        this.options.moduleType = this.options.moduleType || answers.moduleType;
+
         this.DirectiveName = this.directiveName || answers.directiveName;
         //Normalize directive intput name.
         this.DirectiveName = _.kebabCase(this.directiveName);
+
         this.options.moduleName = this.options.moduleName || answers.moduleName;
         //Normalize module intput name.
         this.options.moduleName = _.kebabCase(this.options.moduleName);
+
         this.options.author = this.options.author || answers.author;
 
         done();
@@ -72,10 +81,14 @@ module.exports = yeoman.generators.Base.extend({
 
   },
   writing: {
+
+    preprocessModule: function() {
+        this.modulePath = 'www/js/' + this.options.moduleType + '/' + this.options.moduleName;
+    },
+
     createDirective: function () {
       this.log(chalk.yellow('### Creating directive ###'));
-      var destinationPath = 'www/js/modules/' + this.options.moduleName + '/directive/' + _.toLower(
-        this.options.moduleName) + '.directive.js';
+      var destinationPath = this.modulePath + '/directive/' + _.toLower(this.options.moduleName) + '.directive.js';
       this.fs.copyTpl(
         this.templatePath('_directive.js'),
         this.destinationPath(destinationPath), {
@@ -88,7 +101,7 @@ module.exports = yeoman.generators.Base.extend({
     modifyMain: function () {
       this.log(chalk.yellow('### Adding files to main ###'));
       var self = this;
-      var destinationPath = 'www/js/modules/' + _.toLower(this.options.moduleName) + '/main.js';
+      var destinationPath = this.modulePath + '/main.js';
       this.fs.copy(
         this.destinationPath(destinationPath),
         this.destinationPath(destinationPath),

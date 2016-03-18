@@ -4,6 +4,7 @@ var chalk = require('chalk');
 var yosay = require('yosay');
 var utils = require('../utils');
 var _ = require('lodash');
+var interactionsHelper = require('../utils/interactionsHelper.js');
 
 module.exports = yeoman.generators.Base.extend({
   constructor: function () {
@@ -23,7 +24,7 @@ module.exports = yeoman.generators.Base.extend({
     if (!this.options.isSubCall) {
       self.log(yosay(
         'Welcome to the super-excellent ' + chalk.red('generator-requionic') + ' generator!\n by'
-        ));
+      ));
       self.log(utils.greeting);
     }
     var prompts = [];
@@ -47,6 +48,8 @@ module.exports = yeoman.generators.Base.extend({
       }
       prompts.push(prompt);
     }
+
+    prompts.push(interactionsHelper.promptModuleType());
 
     prompts.push(
       {
@@ -87,76 +90,82 @@ module.exports = yeoman.generators.Base.extend({
       //Normalize module input name.
       this.moduleName = _.kebabCase(this.moduleName);
       this.options.author = this.options.author || answers.author;
+      this.moduleType = answers.moduleType;
       this.componentsToBeCreated = answers.componentsToBeCreated;
 
       done();
     }.bind(this));
   },
   writing: {
+
+    preprocessModule: function() {
+        this.modulePath = 'www/js/' + this.moduleType + '/' + this.moduleName;
+    },
+
     createMain: function () {
+      var self = this;
       var module = this.moduleName;
-      var destinationPath = 'www/js/modules/' + this.moduleName;
       this.log(chalk.yellow('### Creating main ###'));
       this.log(chalk.yellow('### Components: ' + JSON.stringify(this.componentsToBeCreated) + ' ###'));
       this.fs.copyTpl(
         this.templatePath('_main.js'),
-        this.destinationPath(destinationPath + '/main.js'), {
-        author: this.options.author,
-        module: module
-      }
+        this.destinationPath(self.modulePath + '/main.js'), {
+          author: this.options.author,
+          module: module
+        }
       );
     },
     createModule: function () {
+      var self = this;
       this.log(chalk.yellow('### Creating module ' + this.moduleName + ' ###'));
-      var destinationPath = 'www/js/modules/' + this.moduleName;
       this.fs.copyTpl(
         this.templatePath('_module.js'),
-        this.destinationPath(destinationPath + '/' + this.moduleName + '.module.js'), {
-        author: this.options.author,
-        module: this.moduleName,
-        date: (new Date()).toDateString()
-      }
+        this.destinationPath(self.modulePath + '/' + this.moduleName + '.module.js'), {
+          author: this.options.author,
+          module: this.moduleName,
+          date: (new Date()).toDateString()
+        }
       );
     }
   },
   modifyApp: function () {
     this.log(chalk.yellow('### Modifying app.js ###'));
-    var destinationPath = 'www/js/modules/' + this.moduleName;
+    var self = this;
     var moduleName = this.moduleName;
     this.fs.copy(
       'www/js/app.js',
       this.destinationPath('www/js/app.js'), {
-      process: function (content) {
-        var defineHook = '\/\/ Yeoman hook. Define section. Do not remove this comment.';
-        var dependenciesHook = '\/\/ Yeoman hook. Dependencies section. Do not remove this comment.';
-        var modifiers = [];
-        modifiers.push({
-          regEx: new RegExp(defineHook, 'g'),
-          replacer: ',\n\t\t\'./modules/' + moduleName + '/main\'' + defineHook
-        });
-        modifiers.push({
-          regEx: new RegExp(dependenciesHook, 'g'),
-          replacer: ',\n\t\t\t\t\'app.' + moduleName + '\'' + dependenciesHook
-        });
-        var newContent = content.toString();
-        modifiers.forEach(function (modifier) {
-          newContent = newContent.replace(modifier.regEx, modifier.replacer);
-        });
-        return newContent;
+        process: function (content) {
+          var defineHook = '\/\/ Yeoman hook. Define section. Do not remove this comment.';
+          var dependenciesHook = '\/\/ Yeoman hook. Dependencies section. Do not remove this comment.';
+          var modifiers = [];
+          modifiers.push({
+            regEx: new RegExp(defineHook, 'g'),
+            replacer: ',\n\t\t\'./' + self.moduleType + '/' + self.moduleName + '/main\'' + defineHook
+          });
+          modifiers.push({
+            regEx: new RegExp(dependenciesHook, 'g'),
+            replacer: ',\n\t\t\t\t\'app.' + moduleName + '\'' + dependenciesHook
+          });
+          var newContent = content.toString();
+          modifiers.forEach(function (modifier) {
+            newContent = newContent.replace(modifier.regEx, modifier.replacer);
+          });
+          return newContent;
+        }
       }
-    }
     );
   },
   callSubgenerators: function () {
     var options = {
       isSubCall: true,
       author: this.options.author,
-      moduleName: this.moduleName
+      moduleName: this.moduleName,
+      moduleType: this.moduleType
     };
     if (this.componentsToBeCreated.indexOf('controller') >= 0) {
       this.composeWith('requionic:view', {
         arguments: [
-          this.moduleName,
           this.moduleName
         ],
         options: options
@@ -173,7 +182,7 @@ module.exports = yeoman.generators.Base.extend({
     }
 
     if (this.componentsToBeCreated.indexOf('factory') >= 0) {
-      this.composeWith('requionic:service', {
+      this.composeWith('requionic:factory', {
         arguments: [
           this.moduleName
         ],

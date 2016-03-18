@@ -24,9 +24,10 @@
     'angular',
     'app',
     'ngCordova'
-  ], function (angular, app, ngCordova) {
+  ], function (angular, appName, ngCordova) {
     'use strict';
-    app.run(function ($ionicPlatform) {
+    angular.module(appName)
+    .run(function ($ionicPlatform) {
       $ionicPlatform.ready(function () {
 
         // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard

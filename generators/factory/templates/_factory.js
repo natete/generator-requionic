@@ -5,10 +5,11 @@
  */
 
 (function() {
-  define(['./<%= moduleName %>.module'], function(module) {
+  define(['./<%= moduleName %>.module'], function(moduleName) {
     'use strict';
 
-    module.controller('<%= factoryName %>', <%= serviceName %>);
+    angular.module(moduleName)
+    .controller('<%= factoryName %>', <%= factoryName %>);
 
     <%= factoryName %>.$inject = ['$log'];
 

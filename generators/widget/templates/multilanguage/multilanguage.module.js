@@ -1,9 +1,9 @@
 /**
- * Multilanguage module
- * @param {type} angular
- * @returns {angular.module}
- * @author requionic
- */
+* Multilanguage module
+* @param {type} angular
+* @returns {angular.module}
+* @author requionic
+*/
 
 (function () {
 
@@ -15,16 +15,21 @@
   ], function (ng) {
     'use strict';
 
-    return ng.module('app.widgets.multilanguage', ['ngRoute', 'pascalprecht.translate']).run(run);
+    var moduleName = 'app.widgets.multilanguage';
+
+    ng.module(moduleName, ['ngRoute', 'pascalprecht.translate'])
+    .run(run);
+
+    return moduleName;
 
     run.$inject = ['$translate'];
 
     /**
-     * Run function on startup language mudules.
-     * @param {type} $translate
-     * @param {type} SAM_CONFIG
-     * @returns {langs.module_L28.run}
-     */
+    * Run function on startup language mudules.
+    * @param {type} $translate
+    * @param {type} SAM_CONFIG
+    * @returns {langs.module_L28.run}
+    */
     function run($translate) {
       // default language
       var language = 'es';
@@ -46,6 +51,3 @@
 
   });
 })();
-
-
-
