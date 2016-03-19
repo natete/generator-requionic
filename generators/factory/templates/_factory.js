@@ -9,7 +9,7 @@
     'use strict';
 
     angular.module(moduleName)
-    .controller('<%= factoryName %>', <%= factoryName %>);
+    .factory('<%= factoryName %>', <%= factoryName %>);
 
     <%= factoryName %>.$inject = ['$log'];
 
