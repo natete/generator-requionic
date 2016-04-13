@@ -23,6 +23,7 @@ gulp.task('sass', function () {
         .pipe(gulp.dest(config.dest.css));
 });
 
+
 gulp.task('watch', function () {
     gulp.watch(config.origin.allSass, ['sass']);
 });
@@ -32,14 +33,13 @@ gulp.task('watch', function () {
  * @return {Stream}
  */
 gulp.task('analyze', function () {
+    plugins.util.log(plugins.util.colors.blue('Analyzing JSHint and JSCS'));
     var jshintAnalysis = analyzeJshint();
     var jscsAnalysis = analyzeJscs();
 
     return merge(jshintAnalysis, jscsAnalysis);
 });
-
 function analyzeJshint() {
-    plugins.util.log(plugins.util.colors.blue('Analyzing - JSHint'));
     return gulp.src(config.origin.alljs)
         .pipe(plugins.if(args.verbose, plugins.print()))
         .pipe(plugins.jshint())
@@ -48,7 +48,6 @@ function analyzeJshint() {
 }
 
 function analyzeJscs() {
-    plugins.util.log(plugins.util.colors.blue('Analyzing - JSCS'));
     return gulp.src(config.origin.alljs)
         .pipe(plugins.jscs())
         .pipe(plugins.jscsStylish());
