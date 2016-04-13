@@ -4,14 +4,14 @@
  * @since <%= date %>
  */
 
-(function() {
-  define(['./<%= moduleName %>.module'], function(moduleName) {
-    'use strict';
+(function () {
+    define(['./<%= moduleName %>.module'], function (moduleName) {
+        'use strict';
 
-    angular.module(moduleName)
-    .value(
-      // Add your values here
-    );
+        angular.module(moduleName)
+            .value(
+            // Add your values here
+        );
 
-  });
+    });
 })();

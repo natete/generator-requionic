@@ -4,9 +4,9 @@
  * @author requionic
  */
 (function () {
-  define([
-    './multilanguage.controller'
-    // ...
-  ], function () {
-  });
+    define([
+        './multilanguage.controller'
+        // ...
+    ], function () {
+    });
 })();

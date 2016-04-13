@@ -4,8 +4,8 @@
  * @since <%= date %>
  */
 (function () {
-  define([
-    './core.module'// Yeoman hook. Define section. Do not remove this comment.
-  ], function () {
-  });
+    define([
+        './core.module'// Yeoman hook. Define section. Do not remove this comment.
+    ], function () {
+    });
 })();

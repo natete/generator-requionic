@@ -5,17 +5,17 @@
  * @since <%= date %>
  */
 
-(function() {
+(function () {
 
-  define([
-    'angular'
-  ], function(ng) {
-    'use strict';
+    define([
+        'angular'
+    ], function (ng) {
+        'use strict';
 
-    var moduleName = 'app.<%= module %>';
+        var moduleName = 'app.<%= module %>';
 
-    ng.module(moduleName, []);
+        ng.module(moduleName, []);
 
-    return moduleName;
-  });
+        return moduleName;
+    });
 })();

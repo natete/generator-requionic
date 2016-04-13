@@ -5,28 +5,28 @@
  * @since <%= date %>
  */
 
-(function() {
-  define(['./<%= moduleName %>.module', 'text!./<%= viewName %>.html'],
-    function(moduleName, template) {
-      'use strict';
+(function () {
+    define(['./<%= moduleName %>.module', 'text!./<%= viewName %>.html'],
+        function (moduleName, template) {
+            'use strict';
 
-      angular.module(moduleName)
-        .config(config);
+            angular.module(moduleName)
+                .config(config);
 
-      config.$inject = ['$stateProvider', '$urlRouterProvider'];
+            config.$inject = ['$stateProvider', '$urlRouterProvider'];
 
-      function config($stateProvider, $urlRouterProvider) {
+            function config($stateProvider, $urlRouterProvider) {
 
-        $stateProvider.state('<%= viewName %>', {
-          url: '/<%= viewName %>',
-          template: template,
-          controller: '<%= controllerName %>',
-          controllerAs: '<%= viewName + "Ctrl" %>'
+                $stateProvider.state('<%= viewName %>', {
+                    url: '/<%= viewName %>',
+                    template: template,
+                    controller: '<%= controllerName %>',
+                    controllerAs: '<%= viewName + "Ctrl" %>'
+                });
+
+                // Yeoman hook. States section. Do not remove this comment.
+
+                $urlRouterProvider.otherwise('/');
+            }
         });
-
-        // Yeoman hook. States section. Do not remove this comment.
-
-        $urlRouterProvider.otherwise('/');
-      }
-    });
 })();

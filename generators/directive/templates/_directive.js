@@ -4,28 +4,28 @@
  * @since <%= date %>
  */
 
-(function() {
-  define(['./<%= moduleName %>.module'], function(moduleName) {
-    'use strict';
+(function () {
+    define(['./<%= moduleName %>.module'], function (moduleName) {
+        'use strict';
 
-    angular.module(moduleName)
-    .directive('<%= directiveName %>', <%= directiveName %>);
+        angular.module(moduleName)
+            .directive('<%= directiveName %>', <%= directiveName %>);
 
-    <%=controllerName %>.$inject = ['$log'];
+        <%= controllerName %>.$inject = ['$log'];
 
-    function <%= directiveName %> ($log) {
-      var directive = {
-        restrict: 'AE',
-        link: link,
-        controller: <%= controllerName %>,
-        controllerAs: '<%= controllerAsName %>'
-      }
+        function <%= directiveName %> ($log) {
+            var directive = {
+                    restrict: 'AE',
+                    link: link,
+                    controller: <%= controllerName %>,
+                    controllerAs: '<%= controllerAsName %>'
+            };
 
-      return directive;
+            return directive;
 
-      function link(scope, element, attrs) {
+            function link(scope, element, attrs) {
 
-      }
-    }
+            }
+        }
     });
-    })();
+})();

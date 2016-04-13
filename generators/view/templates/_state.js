@@ -1,7 +1,7 @@
 $stateProvider.state('<%= viewName %>', {
-          url: '/<%= viewName %>',
-          template: template,
-          controller: '<%= controllerName %>',
-          controllerAs: '<%= viewName + "Ctrl" %>'
-        });
+    url: '/<%= viewName %>',
+    template: template,
+    controller: '<%= controllerName %>',
+    controllerAs: '<%= viewName + "Ctrl" %>'
+});
         

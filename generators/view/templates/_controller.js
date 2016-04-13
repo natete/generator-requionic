@@ -4,24 +4,24 @@
  * @since <%= date %>
  */
 
-(function() {
-  define(['./<%= moduleName %>.module'], function(moduleName) {
-    'use strict';
+(function () {
+    define(['./<%= moduleName %>.module'], function (moduleName) {
+        'use strict';
 
-    angular.module(moduleName)
-      .controller('<%= controllerName %>', <%= controllerName %>);
+        angular.module(moduleName)
+            .controller('<%= controllerName %>', <%= controllerName %>);
 
-    <%=controllerName %>.$inject = ['$log'];
+        <%= controllerName %>.$inject = ['$log'];
 
-    function <%= controllerName %> ($log) {
-      var vm = this;
-      vm.class = '<%= controllerName %>';
+        function <%= controllerName %> ($log) {
+            var vm = this;
+            vm.class = '<%= controllerName %>';
 
-      activate();
+            activate();
 
-      function activate() {
-        $log.debug('Activating ' + vm.class);
-      }
-    }
-  });
+            function activate() {
+                $log.debug('Activating ' + vm.class);
+            }
+        }
+    });
 })();
