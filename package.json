@@ -1,12 +1,12 @@
 {
   "name": "generator-requionic",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Bootstraps an Ionic app using RequireJS and John Papa's styleguide",
   "homepage": "",
   "author": {
     "name": "natete",
     "email": "natete981@gmail.com",
-    "url": ""
+    "url": "https://github.com/natete/generator-requionic/wiki"
   },
   "files": [
     "generators/app",
