@@ -9,7 +9,7 @@
         'use strict';
 
         angular.module(moduleName)
-            .controller('<%= serviceName %>', <%= serviceName %>);
+            .service('<%= serviceName %>', <%= serviceName %>);
 
         <%= serviceName %>.$inject = ['$log'];
 
