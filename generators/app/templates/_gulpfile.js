@@ -17,6 +17,7 @@ gulp.task('sass', function () {
         .pipe(plugins.plumber())
         .pipe(plugins.sass())
         .pipe(plugins.autoprefixer({browsers: ['last 2 version', 'safari 5', 'ios 6', 'android 4']}))
+        .pipe(plugins.concat('styles.css'))
         .pipe(gulp.dest(config.dest.css))
         .pipe(plugins.cleanCss())
         .pipe(plugins.concat('styles.min.css'))
